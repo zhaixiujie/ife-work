@@ -415,7 +415,7 @@ body {
     left: 10px;
     font-size: 14px;
     border: 1px solid #fff;
-    border-radius: 14px;
+    border-radius: 50%;
     width: 28px;
     height: 28px;
     text-align: center;
@@ -526,7 +526,7 @@ body {
 .ranking-num {
     background: #47456D;
     color: #fff;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 12px;
     width: 16px;
     height: 16px;
@@ -549,6 +549,73 @@ body {
 .ranking-bar {
     height: 20px;
     background: #47456D;
+}
+
+/* main-about */
+.about-center {
+    width: 980px;
+    margin: 100px auto 30px;
+}
+
+.center-right {
+    float: right;
+    width: 487px;
+    background-color: #fff;
+    margin-bottom: 100px;
+}
+
+.info {
+    position: relative;
+    margin: 0 130px 150px 50px;
+}
+
+.info img {
+    position: absolute;
+    left: -110px;
+    top: -120px;
+    border: 5px solid #e2e2e2;
+    border-radius: 50%;
+    float: left;
+}
+
+.info h1 {
+    position: absolute;
+    left: -200px;
+    font-size: 20px;
+    float: left;
+}
+
+.info p {
+    font-size: 14px;
+    line-height: 200%;
+}
+
+.info-edu-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.info-time {
+    position: absolute;
+    left: -88px;
+    border: 5px solid #e2e2e2;
+    border-radius: 10px;
+    width: 60px;
+    color: #888;
+    background: #fff;
+    text-align: center;
+}
+
+.info-routine {
+    font-size: 12px;
+}
+
+.center-left {
+    float: left;
+    width: 487px;
+    height: 100px;
+    background: #fff;
+    height: 1134px;
 }
 
 /* footer */
