@@ -23,7 +23,8 @@ function isFunction(fn) {
 // task 2.2
 // 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
 // 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不会包含函数、正则对象等
-function cloneObject(src) {// 对于 数字 字符串 布尔 null undefined
+function cloneObject(src) {
+    // 对于 数字 字符串 布尔 null undefined
     if (src == null || typeof src != 'object') {
         return src;
     }
@@ -228,28 +229,77 @@ function getPosition(element) {
 // task 3.2
 // 实现一个简单的Query
 function $(selector) {
+    var allchilds = [];
+    var childs = function (element) {    // 递归获取所有子元素 或者用 element.getElementsByTagName('*');
+        var childn = element.childNodes;
+        if (childn.length !== 0) {
+            for (var i = 0, len = childn.length; i < len; i++) {
+                allchilds.push(childn[i]);
+                childs(childn[i]);
+            }
+        }
+        return allchilds;
+    }
+
+    var ele = document.getElementsByTagName('html')[0];    // 获取所有元素
     var sele = selector.replace(/\s+/, ' ').split(' ');    // 去除多余的空格并分割
-    if (sele[0][0] === '#') {
-        ele = document.getElementById('')
-    }
-    else if (sele[0][0] === '.') {
 
-    }
-    else if (sele[0][0] === '[') {
+    for (var i = 0, len = sele.length; i < len; i++) {
+        ele = childs(ele);
+        var eleLen = ele.length;
 
-    }
-    else {
-
-    }
-
-    if (sele.length > 1) {    // 处理组合
-        for (var i = 1, len = sele.length; i < len; i++) {
-            ele = getEle(ele, sele[i]);
+        switch (sele[i][0]) {    // 从子节点中查找
+            case '#':
+                for (var j = 0; j < eleLen; j++) {
+                    if (ele[j].id === sele[i].substring(1)) {
+                        ele = ele[j];
+                        break;
+                    }
+                }
+                break;
+            case '.':
+                for (var j = 0; j < eleLen; j++) {
+                    if (ele[j].className === sele[i].substring(1)) {
+                        ele = ele[j];
+                        break;
+                    }
+                }
+                break;
+            case '[':
+                var valueLoc = sele[i].indexOf('=');
+                if (valueLoc !== -1) {
+                    var key = sele[i].substring(1, valueLoc);
+                    var value = sele[i].substring(valueLoc + 1, sele[i].length - 1);
+                    for (var j = 0; j < eleLen; j++) {
+                        if (ele[j][key] === value) {
+                            ele = ele[j];
+                            break;
+                        }
+                    }
+                }
+                else {
+                    var key = sele[i].substring(1, sele[i].length - 1);
+                    for (var j = 0; j < eleLen; j++) {
+                        if (ele[j][key]) {
+                            ele = ele[j];
+                            break;
+                        }
+                    }
+                }
+                break;
+            default :
+                for (var j = 0; j < eleLen; j++) {
+                    if (ele[j].tagName === sele[i].toUpperCase()) {    // tagName 属性的返回值始终是大写的
+                        ele = ele[j];
+                        break;
+                    }
+                }
+                break;
         }
     }
 
-    var getEle = function (ele, onesele) {
-
+    if (ele === childs(document.getElementsByTagName('html')[0])) {
+        ele = null;
     }
 
     return ele;
@@ -271,3 +321,49 @@ $("[data-time=2015]"); // 返回第一个包含属性data-time且值为2015的�
 
 // 可以通过简单的组合提高查询便利性，例如
 $("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
+
+
+// task 3.3
+// 给一个element绑定一个针对event事件的响应，响应函数为listener
+function addEvent(element, event, listener) {
+    element['on' + event] = listener;
+}
+
+// 例如：
+function clicklistener(event) {
+
+}
+addEvent($("#doma"), "click", a);
+
+// 移除element对象对于event事件发生时执行listener的响应
+function removeEvent(element, event, listener) {
+    element['on' + event] = null;
+}
+
+// 实现对click事件的绑定
+function addClickEvent(element, listener) {
+    element.onclick = listener;
+}
+
+// 实现对于按Enter键时的事件绑定
+function addEnterEvent(element, listener) {
+    element.onkeydown = function(e) {
+        e = e || window.event;
+        if (e.keyCode === 13) {
+            listener();
+        }
+    }
+}
+
+// 接下来我们把上面几个函数和$做一下结合，把他们变成$对象的一些方法
+var delegate = function (method) {    // 代理对象
+    return function() {
+        method(arguments);
+    }
+}
+var $ = {
+    on: delegate(addEvent),
+    un: delegate(removeEvent),
+    click: delegate(addClickEvent),
+    enter: delegate(addEnterEvent)
+};
