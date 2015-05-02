@@ -70,17 +70,22 @@ body {
 }
 
 /* main-index */
-.description {
+.banner {
     font-size: 0;   /* 消除4px的间距 */
 }
 
-.description-text-wrap {
+.banner img {
+    width: 100%;
+    height: 500px;
+}
+
+.banner-text-wrap {
     position: relative;
     width: 980px;
     margin: 0 auto;
 }
 
-.description-text {
+.banner-text {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -96,13 +101,13 @@ body {
     padding: 10px 10px 30px;
 }
 
-.description-text h1 {
+.banner-text h2 {
     text-align: right;
     font-size: 14px;
     margin-bottom: 12px;
 }
 
-.description-text p {
+.banner-text p {
     line-height: 150%;
 }
 
@@ -645,6 +650,7 @@ body {
     margin: 0 auto 100px;
     overflow: hidden;
     text-align: center;
+    border-top: 1px solid #fff;
 }
 
 .link hr {

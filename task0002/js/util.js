@@ -452,6 +452,17 @@ function getCookie(cookieName) {
 // task 6.1
 // 学习Ajax，并尝试自己封装一个Ajax方法。
 function ajax(url, options) {
+    // 跨域请求
+    app.all('*',function(req,res,next){
+        res.set({
+            'Access-Control-Allow-origin' : '*',
+            'Access-Control-Allow-Headers' : 'X-Requested-With',
+            'Access-Control-Allow-Methods' : 'GET'
+        }) ;
+        next();
+    });
+
+    // 创建对象
     var xmlhttp;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
@@ -475,6 +486,7 @@ function ajax(url, options) {
     }
     options.type = options.type.toUpperCase();
 
+    console.log(options.type);
     // 发送请求
     if (options.type === 'GET') {
         var myURL = '';
@@ -488,17 +500,30 @@ function ajax(url, options) {
         xmlhttp.send();
     }
     else if (options.type === 'POST') {
+        xmlhttp.open('POST', url, 'true');
+        xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(data);
+    }
 
+    // readyState
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+            if (xmlhttp.status === 200) {
+                options.onsuccess();
+            }
+            else {
+                options.onfail();
+            }
+        }
     }
 }
 
 // 使用示例：
 ajax(
-    'http://localhost:8080/server/ajaxtest',
+    'http://apistore.baidu.com/microservice/weather',
     {
         data: {
-            name: 'simon',
-            password: '123456'
+            citypinyin: 'wuhan'
         },
         onsuccess: function (responseText, xhr) {
             console.log(responseText);

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <title>Anotherhome</title>
     <link rel="shortcut icon" href="img/favicon.ico">
@@ -9,9 +9,9 @@
 <body>
     <header class="header">
         <div class="nav-wrap">
-            <div class="logo">
+            <h1 class="logo">
                 <a href="index.html"><img src="img/logo.png" alt="logo" width="200px"></a>
-            </div>
+            </h1>
             <nav class="nav">
                 <ul>
                     <li><a href="index.html">首页</a></li>
@@ -21,12 +21,17 @@
                 </ul>
             </nav>
         </div>
-        <div class="icon-github">
-            <a href="https://github.com/DIYgod" target="_blank"><img src="img/icon-github.png"></a>
-        </div>
+        <a class="icon-github" href="https://github.com/DIYgod" target="_blank"><img src="img/icon-github.png"></a>
     </header>
     <div class="gallery-center">
         <div class="gallery-content">
+            <ul class="gallery-tab">
+                <li class="gallery-tab-item gallery-tab-all"><a href="" style="color: #000;">All</a></li>
+                <li class="gallery-tab-item gallery-tab-js"><a href="" style="color: #000;">JavaScript Util Functions</a></li>
+                <li class="gallery-tab-item gallery-tab-ui"><a href="" style="color: #000;">UI Components</a></li>
+                <li class="gallery-tab-item gallery-tab-framwork"><a href="" style="color: #000;">Framework</a></li>
+                <li class="gallery-tab-item gallery-tab-app"><a href="" style="color: #000;">Applications</a></li>
+            </ul>
             <div class="gallery-item">
                 <ul>
                     <li style="width: 330px;">
@@ -121,13 +126,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="gallery-tab">
-                <div class="gallery-tab-item gallery-tab-all"><a href="" style="color: #000;">All</a></div>
-                <div class="gallery-tab-item gallery-tab-js"><a href="" style="color: #000;">JavaScript Util Functions</a></div>
-                <div class="gallery-tab-item gallery-tab-ui"><a href="" style="color: #000;">UI Components</a></div>
-                <div class="gallery-tab-item gallery-tab-framwork"><a href="" style="color: #000;">Framework</a></div>
-                <div class="gallery-tab-item gallery-tab-app"><a href="" style="color: #000;">Applications</a></div>
-            </div>
             <a href="" style="color: #000;"><div class="gallery-more">点击查看更多</div></a>
         </div>
         <div class="sidebar">
@@ -137,44 +135,44 @@
                     <input class="submit" type="submit" value="GO"/>
                 </form>
             </div>
-            <div class="side-ranking side-tag sidebar-form">
+            <ul class="side-ranking side-tag sidebar-form">
                 <p class="ranking-title tag-title">人气排行榜</p>
-                <div class="ranking-item">
+                <li class="ranking-item">
                     <div class="ranking-num">1</div>
                     <div class="ranking-bar-wrap">
                         <div class="ranking-bar" style="width: 100%;"></div>
                     </div>
                     <span style="font-size: 14px;">ui.tree</span>
-                </div>
-                <div class="ranking-item">
+                </li>
+                <li class="ranking-item">
                     <div class="ranking-num">2</div>
                     <div class="ranking-bar-wrap">
                         <div class="ranking-bar" style="width: 80%;"></div>
                     </div>
                     <span style="font-size: 14px;">util.trim</span>
-                </div>
-                <div class="ranking-item">
+                </li>
+                <li class="ranking-item">
                     <div class="ranking-num">3</div>
                     <div class="ranking-bar-wrap">
                         <div class="ranking-bar" style="width: 60%;"></div>
                     </div>
                     <span style="font-size: 14px;">app.todo</span>
-                </div>
-                <div class="ranking-item">
+                </li>
+                <li class="ranking-item">
                     <div class="ranking-num">4</div>
                     <div class="ranking-bar-wrap">
                         <div class="ranking-bar" style="width: 40%;"></div>
                     </div>
                     <span style="font-size: 14px;">ui.tab</span>
-                </div>
-                <div class="ranking-item">
+                </li>
+                <li class="ranking-item">
                     <div class="ranking-num">5</div>
                     <div class="ranking-bar-wrap">
                         <div class="ranking-bar" style="width: 20%;"></div>
                     </div>
                     <span style="font-size: 14px;">util.addClass</span>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </div>
     <footer class="footer">
@@ -187,9 +185,8 @@
             </ul>
         </nav>
         <div class="link">
-            <hr>
             <div class="link-item">
-                <p class="link-title link-left">学习资料</p>
+                <h2 class="link-title link-left">学习资料</h2>
                 <ul class="link-content">
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
@@ -200,7 +197,7 @@
                 </ul>
             </div>
             <div class="link-item">
-                <p class="link-title">友情链接</p>
+                <h2 class="link-title">友情链接</h2>
                 <ul class="link-content">
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
@@ -211,7 +208,7 @@
                 </ul>
             </div>
             <div class="link-item">
-                <p class="link-title">学习资料</p>
+                <h2 class="link-title">学习资料</h2>
                 <ul class="link-content">
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
@@ -222,7 +219,7 @@
                 </ul>
             </div>
             <div class="link-item">
-                <p class="link-title">友情链接</p>
+                <h2 class="link-title">友情链接</h2>
                 <ul class="link-content">
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
@@ -233,7 +230,7 @@
                 </ul>
             </div>
             <div class="link-item">
-                <p class="link-title">学习资料</p>
+                <h2 class="link-title">学习资料</h2>
                 <ul class="link-content">
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
                     <li><a href="https://www.anotherhome.net">Anotherhome</a></li>
