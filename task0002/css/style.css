@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft YaHei, sans-serif;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body {
+    min-width: 980px;
+    background: #e2e2e2;
+}
+
+/* header */
+.header {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    background: #47456D;
+}
+
+.nav-wrap {
+    position: relative;
+    width: 980px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.logo {
+    position: absolute;
+    bottom: 5px;
+}
+
+.nav {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+}
+
+.nav ul {
+    float: right;
+}
+
+.nav li {
+    float: left;
+    font: 14px SimSun, sans-serif;
+    margin-left: 28px;
+}
+
+.icon-github {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+}
+
+@media (max-width: 980px) {
+    .icon-github {
+        display: none;
+    }
+}
+
+/* taks0002_1 */
+.center {
+    margin: 0 auto;
+    width: 980px;
+}
+
+.center h2 {
+    margin: 20px 0;
+}
+
+.center textarea {
+    width: 980px;
+    height: 200px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    font-size: 14px;
+    -webkit-border-radius: 4px;
+    outline: none;
+}
+
+.center a {
+    color: #000;
+    font-size: 10px;
+}
+
+.deal {
+    margin: 10px 0 30px;
+    height: 28px;
+    position: relative;
+}
+
+.deal button {
+    float: left;
+    width: 88px;
+    height: 28px;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #666;
+    padding: 6px 24px;
+    border: none;
+    outline: none;
+}
+.deal button:hover {
+    background-color:#f6f6f6;
+}
+.deal button:active {
+    position:relative;
+    top:1px;
+}
+
+.error {
+    position: absolute;
+    left: 120px;
+    line-height: 28px;
+    color: #f00;
+}
+
+.result h3 {
+    margin-bottom: 10px;
+}
+
+.reuslt {
+    word-spacing:25px;
+}

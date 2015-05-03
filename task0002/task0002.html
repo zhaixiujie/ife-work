@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head>
     <meta charset="UTF-8">
     <title>task0002</title>
 </head>
@@ -16,5 +16,10 @@
     </ul>
     <button id="btn">Change</button>
     <script src="js/util.js"></script>
+    <script>
+        init();
+        $.delegate($("#list"), "li", "click", clickListener);
+
+    </script>
 </body>
 </html>

@@ -84,7 +84,7 @@ console.log(tarObj.b.b1[0]);    // "hello"
 function uniqArray(arr) {
     var new_array = [];
     for (var i = 0, len = arr.length; i < len; i++) {
-        if (new_array.indexOf(arr[i]) < 0 ) {
+        if (arr[i] !== '' && new_array.indexOf(arr[i]) < 0 ) {
             new_array.push(arr[i]);
         }
     }
@@ -333,6 +333,7 @@ $("[data-time=2015]"); // 返回第一个包含属性data-time且值为2015的�
 $("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
 */
 
+
 // task 4.1
 // 给一个element绑定一个针对event事件的响应，响应函数为listener
 function addEvent(element, event, listener) {
@@ -396,7 +397,6 @@ function init() {
 
     $.click($("#btn"), renderList);
 }
-init();
 
 // 我们增加了一个按钮，当点击按钮时，改变list里面的项目，这个时候你再点击一下li，绑定事件不再生效了。
 // 那是不是我们每次改变了DOM结构或者内容后，都需要重新绑定事件呢？当然不会这么笨，接下来学习一下事件代理，然后实现下面新的方法。
@@ -415,7 +415,9 @@ $.delegate = delegateEvent;
 
 // 使用示例
 // 还是上面那段HTML，实现对list这个ul里面所有li的click事件进行响应
+/*
 $.delegate($("#list"), "li", "click", clickListener);
+*/
 
 // task 5.1
 // 判断是否为IE浏览器，返回-1或者版本号
@@ -452,16 +454,6 @@ function getCookie(cookieName) {
 // task 6.1
 // 学习Ajax，并尝试自己封装一个Ajax方法。
 function ajax(url, options) {
-    // 跨域请求
-    app.all('*',function(req,res,next){
-        res.set({
-            'Access-Control-Allow-origin' : '*',
-            'Access-Control-Allow-Headers' : 'X-Requested-With',
-            'Access-Control-Allow-Methods' : 'GET'
-        }) ;
-        next();
-    });
-
     // 创建对象
     var xmlhttp;
     if (window.XMLHttpRequest) {
@@ -475,7 +467,7 @@ function ajax(url, options) {
     if (options.data) {
         var dataarr = [];
         for (var item in options.data) {
-            dataarr.push(item + '=' + options.data.item)
+            dataarr.push(item + '=' + options.data[item]);
         }
         var data = dataarr.join('&');
     }
@@ -486,7 +478,6 @@ function ajax(url, options) {
     }
     options.type = options.type.toUpperCase();
 
-    console.log(options.type);
     // 发送请求
     if (options.type === 'GET') {
         var myURL = '';
@@ -496,11 +487,11 @@ function ajax(url, options) {
         else {
             myURL = url;
         }
-        xmlhttp.open('GET', myURL, 'true');
+        xmlhttp.open('GET', myURL, true);
         xmlhttp.send();
     }
     else if (options.type === 'POST') {
-        xmlhttp.open('POST', url, 'true');
+        xmlhttp.open('POST', url, true);
         xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xmlhttp.send(data);
     }
@@ -509,24 +500,33 @@ function ajax(url, options) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200) {
-                options.onsuccess();
+                if (options.onsuccess) {
+                    options.onsuccess(xmlhttp.responseText, xmlhttp.responseXML);
+                }
             }
             else {
-                options.onfail();
+                if (options.onfail) {
+                    options.onfail();
+                }
             }
         }
     }
 }
 
 // 使用示例：
+/*
 ajax(
-    'http://apistore.baidu.com/microservice/weather',
+    'ajaxget.php',
     {
         data: {
-            citypinyin: 'wuhan'
+            q: 'a'
         },
         onsuccess: function (responseText, xhr) {
             console.log(responseText);
+        },
+        onfail : function () {
+            console.log('fail');
         }
     }
 );
+*/
