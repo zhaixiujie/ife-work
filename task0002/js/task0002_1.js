@@ -1,8 +1,9 @@
 function showHobby() {
-    var text = $('.myText').value;
+    var text = $('.myTextArea').value;
     text = text.replace(/[\s,，、;；]+/g, ' ');    // 将多项用空格分开
     var hobby = text.split(' ');                  // 分割
     hobby = uniqArray(hobby);                     // 去重
+
     if (hobby.length < 1) {                       // 错误处理
         $('.error').innerHTML = '请输入至少一个爱好';
     }
@@ -28,5 +29,13 @@ function showHobby() {
             var data = document.createTextNode(hobby[i] + ' ');
             result.appendChild(data);
         }
+    }
+}
+
+function reset() {
+    $('.error').innerHTML = '';
+    $('.myTextArea').value = '';
+    if ($('.result')) {
+        $('.center').removeChild($('.result'));
     }
 }
