@@ -1,5 +1,4 @@
 <?php
-// 用名字来填充数组
 $a[]="Anna";
 $a[]="Brittany";
 $a[]="Cinderella";
@@ -30,6 +29,17 @@ $a[]="Elizabeth";
 $a[]="Ellen";
 $a[]="Wenche";
 $a[]="Vicky";
+$a[]="Quality";
+$a[]="Quote";
+$a[]="Work";
+$a[]="Review";
+$a[]="Yet";
+$a[]="You";
+$a[]="Zero";
+$a[]="Zip";
+$a[]="Xylophone";
+$a[]="Xylene";
+$a[]="Material";
 
 //获得来自 URL 的 q 参数
 $q=$_GET["q"];
@@ -54,17 +64,6 @@ if (strlen($q) > 0)
     }
   }
 
-// 如果未找到提示，则把输出设置为 "no suggestion"
-// 否则设置为正确的值
-if ($hint == "")
-  {
-  $response="no suggestion";
-  }
-else
-  {
-  $response=$hint;
-  }
-
 //输出响应
-echo $response;
+echo $hint;
 ?>

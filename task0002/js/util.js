@@ -240,15 +240,8 @@ function getPosition(element) {
 // 实现一个简单的Query
 function $(selector) {
     var allchilds = [];
-    var childs = function (element) {    // 递归获取所有子元素 或者用 element.getElementsByTagName('*');
-        var childn = element.childNodes;
-        if (childn.length !== 0) {
-            for (var i = 0, len = childn.length; i < len; i++) {
-                allchilds.push(childn[i]);
-                childs(childn[i]);
-            }
-        }
-        return allchilds;
+    var childs = function (element) {    // 递归获取所有子元素
+        return element.getElementsByTagName('*');
     }
 
     var ele = document.getElementsByTagName('html')[0];    // 获取所有元素
@@ -516,7 +509,7 @@ function ajax(url, options) {
 // 使用示例：
 /*
 ajax(
-    'ajaxget.php',
+    'prompt.php',
     {
         data: {
             q: 'a'

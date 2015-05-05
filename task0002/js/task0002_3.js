@@ -68,7 +68,7 @@ window.onload = function () {
         }
     });
 
-    for (var i = 0, len = button.length; i < len; i++) {
+    for (var i = 0, len = button.length; i < len; i++) {     // 点击小圆点
         $.click(button[i], function() {
             if (!animated) {
                 var toIndex = parseInt(this.getAttribute('index'));
@@ -80,6 +80,30 @@ window.onload = function () {
                 showButton();
             }
         });
-
     }
 };
+
+var timer;
+function playASC() {          // 正序播放
+    if (timer) {
+        stop();
+    }
+    var next = $('#next');
+    timer = setInterval(function () {
+        next.onclick();
+    }, 1000);
+}
+
+function playDESC() {          // 逆序播放
+    if (timer) {
+        stop();
+    }
+    var prev = $('#prev');
+    timer = setInterval(function () {
+        prev.onclick();
+    }, 1000);
+}
+
+function stop() {
+    clearInterval(timer);
+}
