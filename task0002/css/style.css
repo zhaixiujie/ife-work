@@ -134,7 +134,7 @@ body {
 
 .error {
     position: absolute;
-    left: 200px;
+    left: 300px;
     line-height: 28px;
     color: #f00;
 }
