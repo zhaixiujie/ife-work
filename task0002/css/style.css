@@ -274,7 +274,7 @@ body {
     position: relative;
 }
 
-.drag-wrap li {
+.drag {
     width: 150px;
     height: 40px;
     background: #47456D;
@@ -286,4 +286,8 @@ body {
     cursor: move;
     position: absolute;
     left: 0;
+}
+
+.dragging {
+    visibility: hidden;
 }
