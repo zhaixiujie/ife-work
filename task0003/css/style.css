@@ -21,13 +21,16 @@ body {
 }
 
 header {
-    height: 60px;
+    height: 59px;
     width: 100%;
-    background: #47456D;
-    padding-left: 20px;
+    background: #2196f3;
+    box-shadow: 5px 5px 10px #757575;
+    position: absolute;
+    z-index: 3;
 }
 
 header h1 {
+    margin-left: 20px;
     font-size: 25px;
     line-height: 60px;
     color: #fff;
@@ -43,37 +46,166 @@ header h1 {
 .type {
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: 40px;
     width: 230px;
-    padding: 20px 10px 0;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    background: #ddd;
+    background: #eee;
+    z-index: 2;
+    box-shadow: 5px 5px 10px #9e9e9e;
+    border-radius: 5px;
 }
 
-.name-wrap {
-    font-size: 20px;
+.type-wrap {
+    height: 100%;
+    overflow: scroll;
 }
 
-.name-wrap li {
+.type-wrap h2 {
     line-height: 35px;
-}
-
-.type-name {
-    font-size: 18px;
-    padding-left: 15px;
-}
-
-.type-name li {
-    line-height: 30px;
-}
-
-.task-name {
     font-size: 16px;
-    padding-left: 30px;
+    padding-left: 10px;
 }
 
-.task-name li {
+.type-wrap h3 {
+    line-height: 30px;
+    font-size: 16px;
+    padding-left: 25px;
+}
+
+.type-wrap h4 {
     line-height: 25px;
+    font-size: 14px;
+    padding-left: 40px;
+}
+
+.delete  {
+    font-size: 18px;
+    float: right;
+    color: #f44336;
+    display: none;
+}
+
+.item-wrap li h3:hover .delete {
+    display: inline;
+}
+
+.item li h4:hover .delete {
+    display: inline;
+}
+
+.item-wrap li h5:hover .delete {
+    display: inline;
+}
+
+.item li h6:hover .delete {
+    display: inline;
+}
+
+.type-first {
+    padding-top: 20px;
+}
+
+.choose {
+    position: relative;
+    z-index: 4;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px #9e9e9e;
+}
+
+.add {
+    position: absolute;
+    bottom: -40px;
+    font-size: 14px;
+    width: 230px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #ffeb3b;
+    border-radius: 5px;
+    box-shadow: 5px -5px 10px #9e9e9e;
+}
+
+.task {
+    position: absolute;
+    top: 40px;
+    bottom: 40px;
+    left: 230px;
+    width: 230px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #f5f5f5;
+    z-index: 1;
+    box-shadow: 5px 5px 10px #9e9e9e;
+    border-radius: 5px;
+}
+
+.status {
+    position: absolute;
+    top: -40px;
+    height: 40px;
+    width: 230px;
+    padding: 10px;
+    font-size: 14px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #ffeb3b;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px #9e9e9e;
+
+}
+
+.status li {
+    float: left;
+    line-height: 19px;
+    padding: 0 5px;
+}
+
+.status-choose {
+    background: #ffc107;
+    border-radius: 5px;
+}
+
+.task-wrap {
+    height: 100%;
+    overflow: scroll;
+}
+
+.task-wrap h5 {
+    font-size: 14px;
+    line-height: 30px;
+    background: #eee;
+    padding-left: 10px;
+}
+
+.task-wrap h6 {
+    font-size: 14px;
+    line-height: 25px;
+    padding-left: 25px;
+}
+
+.icon-check {
+    display: none;
+}
+
+.task-finish {
+    position: relative;
+    left: -20px;
+    color: #4CAF50;
+}
+
+.task-finish .icon-check {
+    display: inline;
+}
+
+.task-finish .delete {
+    position: relative;
+    left: 20px;
 }
