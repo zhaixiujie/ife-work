@@ -29,46 +29,29 @@
         <div class="task">
             <div class="status">
                 <ul>
-                    <li class="choose">所有</li>
-                    <li><i class="icon-emo-surprised"></i>未完成</li>
-                    <li><i class="icon-emo-grin"></i>已完成</li>
+                    <li class="choose" onclick="statusClick(this)">所有</li>
+                    <li onclick="statusClick(this)"><i class="icon-emo-surprised"></i>未完成</li>
+                    <li onclick="statusClick(this)"><i class="icon-emo-grin"></i>已完成</li>
                 </ul>
             </div>
-            <ul class="task-wrap item-wrap">
-                <li>
-                    <h5>2015-05-28<i class="delete icon-minus-circled"></i></h5>
-                    <ul class="item">
-                        <li class="task-item task-finish">
-                            <h6><i class="icon-check"></i><span>to-do 1</span><i class="delete icon-minus-circled"></i></h6>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h5>2015-05-29<i class="delete icon-minus-circled"></i></h5>
-                    <ul class="item">
-                        <li class="task-item">
-                            <h6 class="choose"><i class="icon-check"></i><span>to-do 2</span><i class="delete icon-minus-circled"></i></h6>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <ul class="task-wrap"></ul>
             <div class="add">
                 <i class="icon-plus"></i>
             </div>
         </div>
         <div class="details">
             <div class="task-info task-title">
-                to-do 2
+                任务标题：<span>to-do 2</span>
                 <div class="set">
                     <i class="icon-check"></i>
                     <i class="icon-edit"></i>
                 </div>
             </div>
             <div class="task-info">
-                任务日期：2015-05-29
+                任务日期：<span>2015-05-29</span>
             </div>
             <div class="task-content">
-                完成task0001的编码任务。
+                <span>完成task0001的编码任务。</span>
             </div>
         </div>
     </div>
