@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Anotherhome</title>
+    <title>GTD Tools - Anotherhome</title>
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fontello.css">
@@ -14,79 +14,65 @@
     <div class="content">
         <div class="type">
             <ul class="type-wrap">
-                <li class="type-first">
-                    <h2><i class="icon-menu"></i>所有任务(11)</h2>
+                <li>
+                    <h2 id="type-all" onclick="typeClick(this)"><i class="icon-menu"></i><span>所有任务</span>(11)</h2>
                 </li>
                 <li>
                     <h2><i class="icon-menu"></i>分类列表</h2>
-                    <ul class="item-wrap">
-                        <li>
-                            <h3><i class="icon-folder-open-empty"></i>默认分类(0)</h3>
-                        </li>
-                        <li>
-                            <h3><i class="icon-folder-open-empty"></i>百度IFE项目(10)<i class="delete icon-minus-circled"></i></h3>
-                            <ul class="item">
-                                <li class="choose">
-                                    <h4><i class="icon-doc-text"></i>task0001(6)<i class="delete icon-minus-circled"></i></h4>
-                                </li>
-                                <li>
-                                    <h4><i class="icon-doc-text"></i>task0002(4)<i class="delete icon-minus-circled"></i></h4>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h3><i class="icon-folder-open-empty"></i>生活(1)<i class="delete icon-minus-circled"></i></h3>
-                        </li>
-                    </ul>
+                    <ul class="item-wrap"></ul>
                 </li>
             </ul>
             <div class="add">
-                <i class="icon-plus-circled"></i>新增分类
+                <i class="icon-plus"></i>
             </div>
         </div>
         <div class="task">
             <div class="status">
                 <ul>
-                    <li class="status-choose">所有</li>
+                    <li class="choose">所有</li>
                     <li><i class="icon-emo-surprised"></i>未完成</li>
                     <li><i class="icon-emo-grin"></i>已完成</li>
                 </ul>
             </div>
             <ul class="task-wrap item-wrap">
                 <li>
-                    <h5>2015-04-28<i class="delete icon-minus-circled"></i></h5>
+                    <h5>2015-05-28<i class="delete icon-minus-circled"></i></h5>
                     <ul class="item">
                         <li class="task-item task-finish">
-                            <h6><i class="icon-check"></i>to-do 1<i class="delete icon-minus-circled"></i></h6>
-                        </li>
-                        <li class="task-item choose">
-                            <h6><i class="icon-check"></i>to-do 2<i class="delete icon-minus-circled"></i></h6>
+                            <h6><i class="icon-check"></i><span>to-do 1</span><i class="delete icon-minus-circled"></i></h6>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <h5>2015-04-29<i class="delete icon-minus-circled"></i></h5>
+                    <h5>2015-05-29<i class="delete icon-minus-circled"></i></h5>
                     <ul class="item">
                         <li class="task-item">
-                            <h6><i class="icon-check"></i>to-do 3<i class="delete icon-minus-circled"></i></h6>
-                        </li>
-                        <li class="task-item">
-                            <h6><i class="icon-check"></i>to-do 4<i class="delete icon-minus-circled"></i></h6>
+                            <h6 class="choose"><i class="icon-check"></i><span>to-do 2</span><i class="delete icon-minus-circled"></i></h6>
                         </li>
                     </ul>
                 </li>
             </ul>
             <div class="add">
-                <i class="icon-plus-circled"></i>新增任务
+                <i class="icon-plus"></i>
             </div>
         </div>
         <div class="details">
-            <div class="task-title">
-                to-do 6
-                <i class="icon-check"></i>
-                <i class="icon-check"></i>
+            <div class="task-info task-title">
+                to-do 2
+                <div class="set">
+                    <i class="icon-check"></i>
+                    <i class="icon-edit"></i>
+                </div>
+            </div>
+            <div class="task-info">
+                任务日期：2015-05-29
+            </div>
+            <div class="task-content">
+                完成task0001的编码任务。
             </div>
         </div>
     </div>
+    <script src="js/util.js"></script>
+    <script src="js/gtd.js"></script>
 </body>
 </html>
