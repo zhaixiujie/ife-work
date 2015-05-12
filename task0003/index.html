@@ -22,7 +22,7 @@
                     <ul class="item-wrap"></ul>
                 </li>
             </ul>
-            <div class="add">
+            <div class="add" onclick="typeAdd()">
                 <i class="icon-plus"></i>
             </div>
         </div>
@@ -35,26 +35,34 @@
                 </ul>
             </div>
             <ul class="task-wrap"></ul>
-            <div class="add">
+            <div class="add" onclick="taskAdd()">
                 <i class="icon-plus"></i>
             </div>
         </div>
         <div class="details">
             <div class="task-info task-title">
-                任务标题：<span>to-do 2</span>
+                任务标题：<span></span>
                 <div class="set">
                     <i class="icon-check"></i>
                     <i class="icon-edit"></i>
                 </div>
             </div>
             <div class="task-info">
-                任务日期：<span>2015-05-29</span>
+                任务日期：<span></span>
             </div>
             <div class="task-content">
-                <span>完成task0001的编码任务。</span>
+                <span></span>
             </div>
         </div>
     </div>
+    <div class="pop">
+        <div class="pop-title">
+            <div class="pop-close" onclick="closePop()"></div>
+            <div class="pop-name"></div>
+        </div>
+        <div class="pop-content"></div>
+    </div>
+    <div class="overlay"></div>
     <script src="js/util.js"></script>
     <script src="js/gtd.js"></script>
 </body>

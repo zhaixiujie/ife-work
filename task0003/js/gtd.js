@@ -45,7 +45,7 @@ var taskText = '['
     +     '"father": 0,'
     +     '"finish": true,'
     +     '"date": "2015-05-28",'
-    +     '"content": "开始task0001的编码任务。"'
+    +     '"content": "开始 task0001 的编码任务。"'
     + '},'
     + '{'
     +     '"id": 1,'
@@ -53,7 +53,7 @@ var taskText = '['
     +     '"father": 0,'
     +     '"finish": true,'
     +     '"date": "2015-05-30",'
-    +     '"content": "完成task0001的编码任务。"'
+    +     '"content": "完成 task0001 的编码任务。"'
     + '},'
     + '{'
     +     '"id": 2,'
@@ -61,7 +61,7 @@ var taskText = '['
     +     '"father": 0,'
     +     '"finish": false,'
     +     '"date": "2015-05-29",'
-    +     '"content": "重构task0001的编码任务。"'
+    +     '"content": "重构 task0001 的编码任务。"'
     + '},'
     + '{'
     +     '"id": 3,'
@@ -69,7 +69,7 @@ var taskText = '['
     +     '"father": 1,'
     +     '"finish": false,'
     +     '"date": "2015-06-29",'
-    +     '"content": "完成task0002的编码任务。"'
+    +     '"content": "完成 task0002 的编码任务。"'
     + '}'
 + ']';
 
@@ -80,14 +80,18 @@ function makeType() {
     for (var i = 0; i < cate.length; i++) {
         html += ''
             + '<li>'
-            +     '<h3 onclick="typeClick(this)"><i class="icon-folder-open-empty"></i><span>' + cate[i].name + '</span>(' + cate[i].num + ')<i class="delete icon-minus-circled"></i></h3>'
+            +     '<h3 onclick="typeClick(this)">'
+            +         '<i class="icon-folder-open-empty"></i><span>' + cate[i].name + '</span>(' + cate[i].num + ')<i class="delete icon-minus-circled"></i>'
+            +     '</h3>'
             +     '<ul class="item">';
 
         for (var j = 0; j < cate[i].child.length; j++) {
             var childNode = childCate[cate[i].child[j]];
             html += ''
             +         '<li>'
-            +             '<h4 onclick="typeClick(this)"><i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled"></i></h4>'
+            +             '<h4 onclick="typeClick(this)">'
+            +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled"></i>'
+            +             '</h4>'
             +         '</li>'
         }
         html += ''
@@ -164,7 +168,9 @@ function makeTaskById(taskIdArr) {
             +         '<li class="task-item">'
                 }
                 html += ''
-            +             '<h6 onclick="taskClick(this)"><i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled"></i></h6>'
+            +             '<h6 onclick="taskClick(this)">'
+            +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled"></i>'
+            +             '</h6>'
             +         '</li>'
             }
         }
@@ -174,7 +180,7 @@ function makeTaskById(taskIdArr) {
     }
     document.getElementsByClassName('task-wrap')[0].innerHTML = html;
     if ($('h6')) {
-        $('h6').className = 'choose';             // 默认选择第一个任务
+        $('h6').onclick();             // 默认选择第一个任务
     }
 }
 
@@ -257,7 +263,7 @@ function statusClick(ele) {
             myEle[i].style.display = 'block';
         }
     }
-    else if (ele.innerHTML.indexOf('未完成') !== -1) {
+    else if (ele.innerHTML.indexOf('已完成') !== -1) {
         myEle = $('.task-wrap').getElementsByTagName('li');
         for (var i = 0; i < myEle.length; i++) {
             myEle[i].style.display = 'none';
@@ -268,11 +274,8 @@ function statusClick(ele) {
                 myEle[i].parentNode.parentNode.style.display = 'block';
             }
         }
-        if ($('h6')) {
-            $('h6').onclick();             // 默认选择第一个任务
-        }
     }
-    else if (ele.innerHTML.indexOf('已完成') !== -1) {
+    else if (ele.innerHTML.indexOf('未完成') !== -1) {
         myEle = $('.task-wrap').getElementsByTagName('li');
         for (var i = 0; i < myEle.length; i++) {
             myEle[i].style.display = 'none';
@@ -283,10 +286,78 @@ function statusClick(ele) {
                 myEle[i].parentElement.parentElement.style.display = 'block';
             }
         }
-        if ($('h6')) {
-            $('h6').onclick();             // 默认选择第一个任务
+    }
+
+    var h6 = document.getElementsByTagName('h6');        // 默认选择第一个任务
+    for (var i = 0; i < h6.length; i++) {
+        if (h6[i].parentNode.style.display !== 'none') {
+            h6[i].onclick();
+            break;
         }
     }
+}
+
+// 新增分类弹窗
+function typeAdd() {
+    $('.pop').style.display = 'block';
+    $('.overlay').style.display = 'block';
+    $('.pop-name').innerHTML = '新增分类';
+    var html = ''
+        + '<p>'
+        +     '新分类名称:'
+        +     '<input type="text" class="myText" placeholder="在此输入新分类的名称">'
+        + '</p>'
+        + '<p>'
+        +     '新分类父节点:'
+        +     '<select class="mySelect">'
+        +         '<option value="0">无</option>'
+
+    var itemWrap = document.getElementsByClassName('item-wrap')[0];
+    var itemName = itemWrap.getElementsByTagName('h3');
+    for (var i = 0; i < itemName.length; i++) {
+        console.log(itemName[i].getElementsByTagName('span'));
+        html += ''
+        +         '<option value="'+ (i + 1) +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
+    }
+
+    html += ''
+        +     '</select>'
+        + '</p>'
+        + '<button class="myButton" onclick="closePop()">取消</button>'
+        + '<button class="myButton" onclick="newType()">确定</button>'
+
+    $('.pop-content').innerHTML = html;
+}
+
+// 新增任务弹窗
+function taskAdd() {
+    $('.pop').style.display = 'block';
+    $('.overlay').style.display = 'block';
+    $('.pop-name').innerHTML = '新增任务';
+    var html = ''
+        + '<p>'
+        +     '新任务名称:'
+        +     '<input type="text" class="myText" placeholder="在此输入新分类的名称">'
+        + '</p>'
+        + '<button class="myButton" onclick="closePop()">取消</button>'
+        + '<button class="myButton" onclick="newTask()">确定</button>'
+    $('.pop-content').innerHTML = html;
+}
+
+// 弹窗关闭按钮
+function closePop() {
+    $('.pop').style.display = 'none';
+    $('.overlay').style.display = 'none';
+}
+
+// 新建分类
+function newType() {
+
+}
+
+// 新建任务
+function newTask() {
+
 }
 
 window.onload = function () {
