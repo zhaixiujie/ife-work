@@ -90,6 +90,10 @@ h6,
     opacity: 0.87;
 }
 
+.type-wrap li {
+    width: 230px;
+}
+
 .type-wrap h2 {
     line-height: 35px;
     font-size: 16px;
@@ -373,7 +377,7 @@ h6,
 
 .myButton {
     float: right;
-    width: 90px;
+    width: 70px;
     height: 28px;
     background-color: #2196f3;
     border-radius: 6px;
