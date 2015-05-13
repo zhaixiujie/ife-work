@@ -101,6 +101,8 @@ function makeType() {
     html = html.replace(/<i class="delete icon-minus-circled"><\/i>/, '');    // 去掉默认分类的删除按钮
     $('.item-wrap').innerHTML = html;
 
+    $('h2').onclick();             // 默认选择第一个分类
+
     makeTask();
 }
 
@@ -310,14 +312,13 @@ function typeAdd() {
         + '<p>'
         +     '新分类父节点:'
         +     '<select class="mySelect">'
-        +         '<option value="0">无</option>'
+        +         '<option value="-1">无</option>'
 
     var itemWrap = document.getElementsByClassName('item-wrap')[0];
     var itemName = itemWrap.getElementsByTagName('h3');
     for (var i = 0; i < itemName.length; i++) {
-        console.log(itemName[i].getElementsByTagName('span'));
         html += ''
-        +         '<option value="'+ (i + 1) +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
+        +         '<option value="'+ i +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
     }
 
     html += ''
@@ -337,7 +338,7 @@ function taskAdd() {
     var html = ''
         + '<p>'
         +     '新任务名称:'
-        +     '<input type="text" class="myText" placeholder="在此输入新分类的名称">'
+        +     '<input type="text" class="myText" placeholder="在此输入新任务的名称">'
         + '</p>'
         + '<button class="myButton" onclick="closePop()">取消</button>'
         + '<button class="myButton" onclick="newTask()">确定</button>'
@@ -352,7 +353,23 @@ function closePop() {
 
 // 新建分类
 function newType() {
+    var name = $('.myText').value;
+    var fatherName = $('.mySelect').value;
+    if (fatherName === '-1') {             // 添加分类
+        var newCate = {
+            "id": cate[cate.length - 1].id + 1,
+            "name": name,
+            "num": 0,
+            "child": []
+        };
+        cate.push(newCate);
+        //cate.stringify
+    }
+    else {                                 // 添加子分类
 
+    }
+    makeType();
+    closePop();
 }
 
 // 新建任务
@@ -367,8 +384,8 @@ window.onload = function () {
         localStorage.task = taskText;
         document.getElementById('type-all').className = 'choose';
     // }
-    cate = eval ('(' + localStorage.cate + ')');
-    childCate = eval ('(' + localStorage.childCate + ')');
-    task = eval ('(' + localStorage.task + ')');
+    cate = eval('(' + localStorage.cate + ')');
+    childCate = eval('(' + localStorage.childCate + ')');
+    task = eval('(' + localStorage.task + ')');
     makeType();
 }
