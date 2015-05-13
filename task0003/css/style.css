@@ -18,6 +18,7 @@ li {
 }
 
 body {
+    min-width: 980px;
     overflow: hidden;
 }
 

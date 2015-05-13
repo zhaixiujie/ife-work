@@ -81,16 +81,16 @@ function makeType() {
         html += ''
             + '<li>'
             +     '<h3 onclick="typeClick(this)">'
-            +         '<i class="icon-folder-open-empty"></i><span>' + cate[i].name + '</span>(' + cate[i].num + ')<i class="delete icon-minus-circled"></i>'
+            +         '<i class="icon-folder-open-empty"></i><span>' + cate[i].name + '</span>(' + cate[i].num + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
             +     '</h3>'
             +     '<ul class="item">';
 
         for (var j = 0; j < cate[i].child.length; j++) {
-            var childNode = childCate[cate[i].child[j]];
+            var childNode = getObjByKey(childCate, 'id', cate[i].child[j]);
             html += ''
             +         '<li>'
             +             '<h4 onclick="typeClick(this)">'
-            +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled"></i>'
+            +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
             +             '</h4>'
             +         '</li>'
         }
@@ -98,7 +98,7 @@ function makeType() {
             +     '</ul>'
             + '</li>'
     }
-    html = html.replace(/<i class="delete icon-minus-circled"><\/i>/, '');    // 去掉默认分类的删除按钮
+    html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认分类的删除按钮
     $('.item-wrap').innerHTML = html;
 
     $('h2').onclick();             // 默认选择第一个分类
@@ -156,7 +156,7 @@ function makeTaskById(taskIdArr) {
     for (var i = 0; i < date.length; i++) {
         html += ''
             + '<li>'
-            +     '<h5>' + date[i] + '<i class="delete icon-minus-circled"></i></h5>'
+            +     '<h5>' + date[i] + '</h5>'
             +     '<ul class="item">'
         for (var j = 0; j < taskIdArr.length; j++) {
             taskObj = getObjByKey(task, 'id', taskIdArr[j]);
@@ -171,7 +171,7 @@ function makeTaskById(taskIdArr) {
                 }
                 html += ''
             +             '<h6 onclick="taskClick(this)">'
-            +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled"></i>'
+            +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
             +             '</h6>'
             +         '</li>'
             }
@@ -330,19 +330,9 @@ function typeAdd() {
     $('.pop-content').innerHTML = html;
 }
 
-// 新增任务弹窗
+// 新增任务，进入编辑模式
 function taskAdd() {
-    $('.pop').style.display = 'block';
-    $('.overlay').style.display = 'block';
-    $('.pop-name').innerHTML = '新增任务';
-    var html = ''
-        + '<p>'
-        +     '新任务名称:'
-        +     '<input type="text" class="myText" placeholder="在此输入新任务的名称">'
-        + '</p>'
-        + '<button class="myButton" onclick="closePop()">取消</button>'
-        + '<button class="myButton" onclick="newTask()">确定</button>'
-    $('.pop-content').innerHTML = html;
+
 }
 
 // 弹窗关闭按钮
@@ -363,10 +353,20 @@ function newType() {
             "child": []
         };
         cate.push(newCate);
-        //cate.stringify
+        localStorage.cate = JSON.stringify(cate);  // 保存
     }
     else {                                 // 添加子分类
-
+        var newChild = {
+            "id": childCate[childCate.length - 1].id + 1,
+            "name": name,
+            "child": [],
+            "father": cate[$('.mySelect').value].id
+        };
+        var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
+        father.child.push(newChild.id);                       // 在父节点中登记
+        childCate.push(newChild);
+        localStorage.cate = JSON.stringify(cate);  // 保存
+        localStorage.childCate = JSON.stringify(childCate);
     }
     makeType();
     closePop();
@@ -377,13 +377,59 @@ function newTask() {
 
 }
 
+/* todo
+ * num刷新
+ * 检测分类名的合法性
+ * 将无分类的任务移置默认分组
+ */
+// 点击了删除按钮
+function del(e, ele) {
+    window.event ? window.event.cancelBubble = true : e.stopPropagation();  // 阻止事件冒泡
+    var ele = ele.parentNode;
+    var tag = ele.tagName.toLowerCase();
+    var index;
+    var name;
+    switch (tag) {
+        case 'h3':                                                          // 删除一个分类
+            name = ele.getElementsByTagName('span')[0].innerHTML;
+            index = getIndexByKey(cate, 'name', name);
+            for (var i = 0; i < cate[index].child.length; i++) {            // 删除该分类的所有子分类
+                var childIndex = getIndexByKey(childCate, 'id', cate[index].child[i]);
+                childCate.splice(childIndex, 1);
+            }
+            localStorage.cate = JSON.stringify(childCate);                  // 保存
+            cate.splice(index, 1);
+            localStorage.cate = JSON.stringify(cate);                       // 保存
+            makeType();
+            break;
+        case 'h4':                                                          // 删除一个子分类
+            name = ele.getElementsByTagName('span')[0].innerHTML;
+            index = getIndexByKey(childCate, 'name', name);
+            var fatherIndex = getIndexByKey(cate, 'id', childCate[index].father);  // 删除父节点中的记录
+            cate[fatherIndex].child.splice(cate[fatherIndex].child.indexOf(childCate[index].id), 1);
+            childCate.splice(index, 1);
+            localStorage.cate = JSON.stringify(childCate);                  // 保存
+            makeType();
+            break;
+    }
+}
+
+// 根据某对象的某属性得到某对象的序号
+function getIndexByKey(obj, key, value) {
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i][key] === value) {
+            return i;
+        }
+    }
+}
+
 window.onload = function () {
-    // if (!localStorage.getItem('cate')) {  // 页面之前没被访问过
+    //if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
         localStorage.cate = cateText;
         localStorage.childCate = childCateText;
         localStorage.task = taskText;
         document.getElementById('type-all').className = 'choose';
-    // }
+    //}
     cate = eval('(' + localStorage.cate + ')');
     childCate = eval('(' + localStorage.childCate + ')');
     task = eval('(' + localStorage.task + ')');
