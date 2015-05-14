@@ -58,25 +58,25 @@ function cloneObject(src) {
 
 // 测试用例：
 /*
-var srcObj = {
-    a: 1,
-    b: {
-        b1: ["hello", "hi"],
-        b2: "JavaScript"
-    }
-};
-var abObj = srcObj;
-var tarObj = cloneObject(srcObj);
+ var srcObj = {
+ a: 1,
+ b: {
+ b1: ["hello", "hi"],
+ b2: "JavaScript"
+ }
+ };
+ var abObj = srcObj;
+ var tarObj = cloneObject(srcObj);
 
-srcObj.a = 2;
-srcObj.b.b1[0] = "Hello";
+ srcObj.a = 2;
+ srcObj.b.b1[0] = "Hello";
 
-console.log(abObj.a);
-console.log(abObj.b.b1[0]);
+ console.log(abObj.a);
+ console.log(abObj.b.b1[0]);
 
-console.log(tarObj.a);      // 1
-console.log(tarObj.b.b1[0]);    // "hello"
-*/
+ console.log(tarObj.a);      // 1
+ console.log(tarObj.b.b1[0]);    // "hello"
+ */
 
 
 // task 2.3
@@ -93,10 +93,10 @@ function uniqArray(arr) {
 
 // 使用示例
 /*
-var a = [1, 3, 5, 7, 5, 3];
-var b = uniqArray(a);
-console.log(b); // [1, 3, 5, 7]
-*/
+ var a = [1, 3, 5, 7, 5, 3];
+ var b = uniqArray(a);
+ console.log(b); // [1, 3, 5, 7]
+ */
 
 // 中级班同学跳过此题
 // 实现一个简单的trim函数，用于去除一个字符串，头部和尾部的空白字符
@@ -121,10 +121,10 @@ function trim(str) {
 
 // 使用示例
 /*
-var str = '   hi!  ';
-str = trim(str);
-console.log(str); // 'hi!'
-*/
+ var str = '   hi!  ';
+ str = trim(str);
+ console.log(str); // 'hi!'
+ */
 
 // 实现一个遍历数组的方法，针对数组中每一个元素执行fn函数，并将数组索引和元素作为参数传递
 function each(arr, fn) {
@@ -137,19 +137,19 @@ function each(arr, fn) {
 
 // 使用示例
 /*
-var arr = ['java', 'c', 'php', 'html'];
-function output(item) {
-    console.log(item)
-}
-each(arr, output);  // java, c, php, html
+ var arr = ['java', 'c', 'php', 'html'];
+ function output(item) {
+ console.log(item)
+ }
+ each(arr, output);  // java, c, php, html
 
-// 使用示例
-var arr = ['java', 'c', 'php', 'html'];
-function output(item, index) {
-    console.log(index + ': ' + item)
-}
-each(arr, output);  // 0:java, 1:c, 2:php, 3:html
-*/
+ // 使用示例
+ var arr = ['java', 'c', 'php', 'html'];
+ function output(item, index) {
+ console.log(index + ': ' + item)
+ }
+ each(arr, output);  // 0:java, 1:c, 2:php, 3:html
+ */
 
 // 获取一个对象里面第一层元素的数量，返回一个整数
 function getObjectLength(obj) {
@@ -164,16 +164,16 @@ function getObjectLength(obj) {
 
 // 使用示例
 /*
-var obj = {
-    a: 1,
-    b: 2,
-    c: {
-        c1: 3,
-        c2: 4
-    }
-};
-console.log(getObjectLength(obj)); // 3
-*/
+ var obj = {
+ a: 1,
+ b: 2,
+ c: {
+ c1: 3,
+ c2: 4
+ }
+ };
+ console.log(getObjectLength(obj)); // 3
+ */
 
 // task 2.4
 // 判断是否为邮箱地址
@@ -190,7 +190,12 @@ function isMobilePhone(phone) {
 
 // task 3.1
 function hasClass(element, className) {
-    return element.className.match(className);
+    var name = element.className.split(' ');
+    if (name.indexOf(className) !== -1) {
+        return true;
+    }
+    return false;
+
 }
 // 为element增加一个样式名为newClassName的新样式
 function addClass(element, newClassName) {
@@ -262,7 +267,8 @@ function $(selector) {
                 break;
             case '.':
                 for (var j = 0; j < eleLen; j++) {
-                    if (ele[j].className === sele[i].substring(1)) {
+                    var name = uniqArray(ele[j].className.split(' '));
+                    if (name.indexOf(sele[i].substring(1)) !== -1) {
                         ele = ele[j];
                         break;
                     }
@@ -308,23 +314,23 @@ function $(selector) {
     return ele;
 }
 /*
-// 可以通过id获取DOM对象，通过#标示，例如
-$("#adom"); // 返回id为adom的DOM对象
+ // 可以通过id获取DOM对象，通过#标示，例如
+ $("#adom"); // 返回id为adom的DOM对象
 
-// 可以通过tagName获取DOM对象，例如
-$("a"); // 返回第一个<a>对象
+ // 可以通过tagName获取DOM对象，例如
+ $("a"); // 返回第一个<a>对象
 
-// 可以通过样式名称获取DOM对象，例如
-$(".classa"); // 返回第一个样式定义包含classa的对象
+ // 可以通过样式名称获取DOM对象，例如
+ $(".classa"); // 返回第一个样式定义包含classa的对象
 
-// 可以通过attribute匹配获取DOM对象，例如
-$("[data-log]"); // 返回第一个包含属性data-log的对象
+ // 可以通过attribute匹配获取DOM对象，例如
+ $("[data-log]"); // 返回第一个包含属性data-log的对象
 
-$("[data-time=2015]"); // 返回第一个包含属性data-time且值为2015的对象
+ $("[data-time=2015]"); // 返回第一个包含属性data-time且值为2015的对象
 
-// 可以通过简单的组合提高查询便利性，例如
-$("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
-*/
+ // 可以通过简单的组合提高查询便利性，例如
+ $("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
+ */
 
 
 // task 4.1
@@ -367,10 +373,10 @@ function clickListener(event) {
 }
 
 /*
-$.click($("#item1"), clickListener);
-$.click($("#item2"), clickListener);
-$.click($("#item3"), clickListener);
-*/
+ $.click($("#item1"), clickListener);
+ $.click($("#item2"), clickListener);
+ $.click($("#item3"), clickListener);
+ */
 
 // 我们通过自己写的函数，取到id为list这个ul里面的所有li，然后通过遍历给他们绑定事件。这样我们就不需要一个一个去绑定了。
 function clickListener(event) {
@@ -383,10 +389,10 @@ function renderList() {
 
 function init() {
     /*
-    each($("#list").getElementsByTagName('li'), function(item) {
-        $.click(item, clickListener);
-    });
-    */
+     each($("#list").getElementsByTagName('li'), function(item) {
+     $.click(item, clickListener);
+     });
+     */
 
     $.click($("#btn"), renderList);
 }
@@ -409,8 +415,8 @@ $.delegate = delegateEvent;
 // 使用示例
 // 还是上面那段HTML，实现对list这个ul里面所有li的click事件进行响应
 /*
-$.delegate($("#list"), "li", "click", clickListener);
-*/
+ $.delegate($("#list"), "li", "click", clickListener);
+ */
 
 // task 5.1
 // 判断是否为IE浏览器，返回-1或者版本号
@@ -508,18 +514,18 @@ function ajax(url, options) {
 
 // 使用示例：
 /*
-ajax(
-    'prompt.php',
-    {
-        data: {
-            q: 'a'
-        },
-        onsuccess: function (responseText, xhr) {
-            console.log(responseText);
-        },
-        onfail : function () {
-            console.log('fail');
-        }
-    }
-);
-*/
+ ajax(
+ 'prompt.php',
+ {
+ data: {
+ q: 'a'
+ },
+ onsuccess: function (responseText, xhr) {
+ console.log(responseText);
+ },
+ onfail : function () {
+ console.log('fail');
+ }
+ }
+ );
+ */

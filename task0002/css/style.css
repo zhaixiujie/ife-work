@@ -82,7 +82,6 @@ body {
 .myTextArea {
     width: 980px;
     height: 200px;
-    border: 1px solid #ccc;
     padding: 8px;
     font-size: 14px;
     -webkit-border-radius: 4px;

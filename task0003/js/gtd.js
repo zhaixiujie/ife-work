@@ -12,13 +12,11 @@ var cateText = '['
     + '{'
     +     '"id": 0,'
     +     '"name": "默认分类",'
-    +     '"num": 0,'
     +     '"child": []'
     + '},'
     + '{'
     +     '"id": 1,'
     +     '"name": "百度IFE项目",'
-    +     '"num": 4,'
     +     '"child": [0, 1]'
     + '}'
 + ']';
@@ -75,6 +73,7 @@ var taskText = '['
 
 // 生成任务分类列表
 function makeType() {
+    setNum();               // 刷新分类对象的num属性
     $('#type-all').innerHTML = '<i class="icon-menu"></i><span>所有任务</span>(' + task.length + ')'
     var html = '';
     for (var i = 0; i < cate.length; i++) {
@@ -180,7 +179,7 @@ function makeTaskById(taskIdArr) {
             +     '</ul>'
             + '</li>'
     }
-    document.getElementsByClassName('task-wrap')[0].innerHTML = html;
+    $('.task-wrap').innerHTML = html;
     if ($('h6')) {
         $('h6').onclick();             // 默认选择第一个任务
     }
@@ -195,6 +194,15 @@ function getObjByKey(obj, key, value) {
     }
 }
 
+// 根据某对象的某属性得到某对象的序号
+function getIndexByKey(obj, key, value) {
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i][key] === value) {
+            return i;
+        }
+    }
+}
+
 // 对任务时间进行排序
 function sortDate(date) {
     return date.sort(function (a, b) {
@@ -205,7 +213,7 @@ function sortDate(date) {
 // 生成任务详细描述部分
 function makeDetails() {
     var ele = $('.task-wrap .choose');
-    var info = document.getElementsByClassName('details')[0].getElementsByTagName('span');
+    var info = $('.details').getElementsByTagName('span');
     if (!($('.task-wrap .choose').length === 0)) {
         var name = ele.getElementsByTagName('span')[0].innerHTML;
         var taskObj = getObjByKey(task, 'name', name);
@@ -307,14 +315,14 @@ function typeAdd() {
     var html = ''
         + '<p>'
         +     '新分类名称:'
-        +     '<input type="text" class="myText" placeholder="在此输入新分类的名称">'
+        +     '<input type="text" class="myText typeText" placeholder="在此输入新分类的名称">'
         + '</p>'
         + '<p>'
         +     '新分类父节点:'
         +     '<select class="mySelect">'
         +         '<option value="-1">无</option>'
 
-    var itemWrap = document.getElementsByClassName('item-wrap')[0];
+    var itemWrap = $('.item-wrap');
     var itemName = itemWrap.getElementsByTagName('h3');
     for (var i = 0; i < itemName.length; i++) {
         html += ''
@@ -386,12 +394,31 @@ function newType() {
 }
 
 // 新建任务
-function newTask() {
+function taskAdd() {
+    $('.task .add').onclick = '';               // 暂时取消新建按钮的点击事件，防止重复点击
+    $('.task-title span').innerHTML = '';
+    $('.task-date span').innerHTML = '';
+    document.getElementsByClassName('taskText')[0].style.display = 'inline';
+    document.getElementsByClassName('taskText')[1].style.display = 'inline';
+    var ele = $('.type-wrap .choose');
+    var eleTag = ele.tagName.toLowerCase();
+    var name = ele.getElementsByTagName('span')[0].innerHTML;
+    switch (eleTag) {
+        case 'h2':                               // 选中了所有任务
+
+            break;
+        case 'h3':                               // 选中了分类
+
+            break;
+        case 'h4':                               // 选中了子分类
+
+            break;
+    }
 
 }
 
 /* todo
- * num刷新
+ * h6删除按钮
  */
 // 点击了删除按钮
 function del(e, ele) {
@@ -429,22 +456,26 @@ function del(e, ele) {
     }
 }
 
-// 根据某对象的某属性得到某对象的序号
-function getIndexByKey(obj, key, value) {
-    for (var i = 0; i < obj.length; i++) {
-        if (obj[i][key] === value) {
-            return i;
+// 刷新分类对象的num属性
+function setNum() {
+    var sum;
+    for (var i = 0; i < cate.length; i++) {
+        sum = 0;
+        for (var j = 0; j < cate[i].child.length; j++) {
+            var childNum = getObjByKey(childCate, 'id', cate[i].child[j]).child.length;
+            sum += childNum;
         }
+        cate[i].num = sum;
     }
 }
 
 window.onload = function () {
-    //if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
+    if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
         localStorage.cate = cateText;
         localStorage.childCate = childCateText;
         localStorage.task = taskText;
-        document.getElementById('type-all').className = 'choose';
-    //}
+        $('#type-all').className = 'choose';
+    }
     cate = eval('(' + localStorage.cate + ')');
     childCate = eval('(' + localStorage.childCate + ')');
     task = eval('(' + localStorage.task + ')');
