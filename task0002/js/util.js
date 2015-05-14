@@ -190,7 +190,12 @@ function isMobilePhone(phone) {
 
 // task 3.1
 function hasClass(element, className) {
-    return element.className.match(className);
+    var name = element.className.split(' ');
+    if (name.indexOf(className) !== -1) {
+        return true;
+    }
+    return false;
+
 }
 // 为element增加一个样式名为newClassName的新样式
 function addClass(element, newClassName) {

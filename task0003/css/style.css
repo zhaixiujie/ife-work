@@ -291,6 +291,7 @@ h6,
 }
 
 .pop{
+    position: relative;
     display: none;
     margin: auto;
     position: absolute;
@@ -372,7 +373,6 @@ h6,
 }
 
 .myButton {
-    float: right;
     width: 80px;
     height: 28px;
     background-color: #2196f3;
@@ -381,12 +381,28 @@ h6,
     padding: 6px 24px;
     border: none;
     outline: none;
-    margin: 30px 10px 0 0;
+    margin-left: 10px;
 }
 .myButton:hover {
     background-color:#42a5f5;
 }
-.myButton:active {
-    position:relative;
-    top:1px;
+
+.btn2 {
+    position: absolute;
+    bottom: 15px;
+    right: 130px;
+}
+
+.btn1 {
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+}
+
+.error {
+    color: #d50000;
+}
+
+.input-error {
+    border-color: #d50000;
 }

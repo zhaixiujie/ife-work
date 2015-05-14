@@ -324,8 +324,9 @@ function typeAdd() {
     html += ''
         +     '</select>'
         + '</p>'
-        + '<button class="myButton" onclick="closePop()">取消</button>'
-        + '<button class="myButton" onclick="newType()">确定</button>'
+        + '<p class="error"></p>'
+        + '<button class="myButton btn1" onclick="closePop()">取消</button>'
+        + '<button class="myButton btn2" onclick="newType()">确定</button>'
 
     $('.pop-content').innerHTML = html;
 }
@@ -345,6 +346,18 @@ function closePop() {
 function newType() {
     var name = $('.myText').value;
     var fatherName = $('.mySelect').value;
+    if (name.length === 0) {              // 检测输入合法性
+        $('.error').innerHTML = '分类名称不能为空';
+        return;
+    }
+    else if (name.length >= 15) {
+        $('.error').innerHTML = '分类名称不能多于15个字符';
+        return;
+    }
+    else if (getObjByKey(cate, 'name', name)) {
+        $('.error').innerHTML = '分类名称已存在';
+        return;
+    }
     if (fatherName === '-1') {             // 添加分类
         var newCate = {
             "id": cate[cate.length - 1].id + 1,
@@ -379,8 +392,6 @@ function newTask() {
 
 /* todo
  * num刷新
- * 检测分类名的合法性
- * 将无分类的任务移置默认分组
  */
 // 点击了删除按钮
 function del(e, ele) {
@@ -393,8 +404,12 @@ function del(e, ele) {
         case 'h3':                                                          // 删除一个分类
             name = ele.getElementsByTagName('span')[0].innerHTML;
             index = getIndexByKey(cate, 'name', name);
-            for (var i = 0; i < cate[index].child.length; i++) {            // 删除该分类的所有子分类
+            for (var i = 0; i < cate[index].child.length; i++) {            // 删除该分类下的所有子分类及任务
                 var childIndex = getIndexByKey(childCate, 'id', cate[index].child[i]);
+                for (var j = 0; j < childCate[childIndex].child.length; j ++) {
+                    var taskIndex = getIndexByKey(task, 'id', childCate[childIndex].child[j])
+                    task.splice(taskIndex, 1);
+                }
                 childCate.splice(childIndex, 1);
             }
             localStorage.cate = JSON.stringify(childCate);                  // 保存
