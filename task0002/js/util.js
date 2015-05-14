@@ -267,7 +267,8 @@ function $(selector) {
                 break;
             case '.':
                 for (var j = 0; j < eleLen; j++) {
-                    if (ele[j].className === sele[i].substring(1)) {
+                    var name = uniqArray(ele[j].className.split(' '));
+                    if (name.indexOf(sele[i].substring(1)) !== -1) {
                         ele = ele[j];
                         break;
                     }
