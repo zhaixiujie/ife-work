@@ -575,10 +575,16 @@ function taskAdd() {
 // 点击了删除按钮
 function del(e, ele) {
     window.event ? window.event.cancelBubble = true : e.stopPropagation();  // 阻止事件冒泡
+
+    var con = confirm("删除操作不可逆，确定要删除吗？");
+    if (!con) {
+        return;
+    }
+
     var ele = ele.parentNode;
     var tag = ele.tagName.toLowerCase();
     var index;
-    var name = ele.getElementsByTagName('span')[0].innerHTML;;
+    var name = ele.getElementsByTagName('span')[0].innerHTML;
     switch (tag) {
         case 'h3':                                                          // 删除一个分类
             index = getIndexByKey(cate, 'name', name);
@@ -632,8 +638,17 @@ function setNum() {
 
 // 设置任务为已完成状态
 function finishTask() {
+
     var taskName = $('.task-title span').innerHTML;
     var taskObj = getObjByKey(task, 'name', taskName);
+    if (taskObj.finish) {
+        alert('任务已经已经完成了哦~');
+        return;
+    }
+    var con = confirm("确定要设置任务为已完成状态吗？");
+    if (!con) {
+        return;
+    }
     taskObj.finish = true;
     makeTask();
 }
