@@ -255,12 +255,14 @@ function $(selector) {
     for (var i = 0, len = sele.length; i < len; i++) {
         ele = childs(ele);
         var eleLen = ele.length;
+        var isGet = false;
 
         switch (sele[i][0]) {    // 从子节点中查找
             case '#':
                 for (var j = 0; j < eleLen; j++) {
                     if (ele[j].id === sele[i].substring(1)) {
                         ele = ele[j];
+                        isGet = true;
                         break;
                     }
                 }
@@ -270,6 +272,7 @@ function $(selector) {
                     var name = uniqArray(ele[j].className.split(' '));
                     if (name.indexOf(sele[i].substring(1)) !== -1) {
                         ele = ele[j];
+                        isGet = true;
                         break;
                     }
                 }
@@ -282,6 +285,7 @@ function $(selector) {
                     for (var j = 0; j < eleLen; j++) {
                         if (ele[j][key] === value) {
                             ele = ele[j];
+                            isGet = true;
                             break;
                         }
                     }
@@ -291,6 +295,7 @@ function $(selector) {
                     for (var j = 0; j < eleLen; j++) {
                         if (ele[j][key]) {
                             ele = ele[j];
+                            isGet = true;
                             break;
                         }
                     }
@@ -300,6 +305,7 @@ function $(selector) {
                 for (var j = 0; j < eleLen; j++) {
                     if (ele[j].tagName === sele[i].toUpperCase()) {    // tagName 属性的返回值始终是大写的
                         ele = ele[j];
+                        isGet = true;
                         break;
                     }
                 }
@@ -307,7 +313,7 @@ function $(selector) {
         }
     }
 
-    if (ele.length) {
+    if (!isGet) {
         ele = null;
     }
 

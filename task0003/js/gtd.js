@@ -80,6 +80,7 @@ var taskText = '['
 // 生成任务分类列表
 function makeType() {
     setNum();               // 刷新分类对象的num属性
+    var oldChoose = $('.type-wrap .choose');    // 保存正在选中的分类选项
     $('#type-all').innerHTML = '<i class="icon-menu"></i><span>所有任务</span>(' + task.length + ')'
     var html = '';
     for (var i = 0; i < cate.length; i++) {
@@ -107,9 +108,31 @@ function makeType() {
     html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认子分类的删除按钮
     $('.item-wrap').innerHTML = html;
 
-    $('h2').click();             // 默认选择第一个分类
+    if (oldChoose) {                                          // 恢复之前选中的选项
+        var tag = oldChoose.tagName.toLowerCase();
+        var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
+        switch (tag) {
+            case 'h2':
+                $('h2').click();
+                break;
+            case 'h3':
+                var cateEle = document.getElementsByTagName('h3');
+                for (var i = 0; i < cateEle.length; i++) {
+                    if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
+                        cateEle[i].click();
+                        break;
+                    }
+                }
+                break;
+            case 'h4':
 
-    makeTask();
+        }
+    }
+    else {                   // 否则默认选择第一个分类
+        $('h2').click();
+    }
+
+    //makeTask();
 }
 
 // 生成任务列表
