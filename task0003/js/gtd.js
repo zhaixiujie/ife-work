@@ -730,9 +730,3 @@ window.onload = function () {
     task = JSON.parse(localStorage.task);
     makeType();
 }
-
-
-/*
- * todo
- * 删除后选择第一个
- */
