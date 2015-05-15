@@ -307,7 +307,7 @@ function $(selector) {
         }
     }
 
-    if (ele === childs(document.getElementsByTagName('html')[0])) {
+    if (ele.length) {         // 对象未找到
         ele = null;
     }
 
