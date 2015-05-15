@@ -111,32 +111,48 @@ function makeType() {
     if (oldChoose) {                                          // 恢复之前选中的选项
         var tag = oldChoose.tagName.toLowerCase();
         var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
+        var isClick = false;
         switch (tag) {
             case 'h2':
                 $('h2').click();
+                isClick = true;
                 break;
             case 'h3':
                 var cateEle = document.getElementsByTagName('h3');
                 for (var i = 0; i < cateEle.length; i++) {
                     if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
                         cateEle[i].click();
+                        isClick = true;
                         break;
                     }
                 }
                 break;
             case 'h4':
-
+                var childEle = document.getElementsByTagName('h4');
+                for (var i = 0; i < childEle.length; i++) {
+                    if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
+                        childEle[i].click();
+                        isClick = true;
+                        break;
+                    }
+                }
+                break;
+        }
+        if (!isClick) {                                   // 之前选中的元素不再显示的情况
+            $('h2').click();
         }
     }
     else {                   // 否则默认选择第一个分类
         $('h2').click();
     }
 
-    //makeTask();
+    makeTask();
 }
 
 // 生成任务列表
 function makeTask() {
+    var oldChoose = $('.task-wrap .choose');     // 保存正在选中的任务
+    $('.status li').click();                     // 点击所有选项
     var ele = $('.type-wrap .choose');
     var eleTag = ele.tagName.toLowerCase();
     var name = ele.getElementsByTagName('span')[0].innerHTML;
@@ -165,6 +181,25 @@ function makeTask() {
             }
             makeTaskById(taskIdArr);
             break;
+    }
+
+    if (oldChoose) {                                          // 恢复之前选中的选项
+        var childEle = document.getElementsByTagName('h6');
+        var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
+        var isClick = false;
+        for (var i = 0; i < childEle.length; i++) {
+            if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
+                childEle[i].click();
+                isClick = true;
+                break;
+            }
+            if (!isClick && $('h6')) {                                   // 之前选中的元素不再显示的情况
+                $('h6').click();
+            }
+        }
+    }
+    else if ($('h6')) {                   // 否则默认选择第一个任务
+        $('h6').click();
     }
 
     makeDetails();
@@ -210,9 +245,6 @@ function makeTaskById(taskIdArr) {
             + '</li>'
     }
     $('.task-wrap').innerHTML = html;
-    if ($('h6')) {
-        $('h6').onclick();             // 默认选择第一个任务
-    }
 }
 
 // 根据某对象的某属性得到某对象
@@ -244,12 +276,19 @@ function sortDate(date) {
 function makeDetails() {
     var ele = $('.task-wrap .choose');
     var info = $('.details').getElementsByTagName('span');
-    if (!($('.task-wrap .choose').length === 0)) {
+    if (ele) {
         var name = ele.getElementsByTagName('span')[0].innerHTML;
         var taskObj = getObjByKey(task, 'name', name);
-        info[0].innerHTML = taskObj.name;
-        info[1].innerHTML = taskObj.date;
-        info[2].innerHTML = taskObj.content;
+        if (taskObj) {
+            info[0].innerHTML = taskObj.name;
+            info[1].innerHTML = taskObj.date;
+            info[2].innerHTML = taskObj.content;
+        }
+        else {                           // ele刚刚被删掉
+            info[0].innerHTML = '';
+            info[1].innerHTML = '';
+            info[2].innerHTML = '';
+        }
         $('.set').style.display = 'inline';
     }
     else {                               // 任务列表为空的情况
@@ -388,7 +427,11 @@ function typeAdd() {
         return;
     }
     else if (getObjByKey(cate, 'name', name)) {
-        $('.error').innerHTML = '分类名称已存在';
+        $('.error').innerHTML = '检测到相同名称的分类已存在';
+        return;
+    }
+    else if (getObjByKey(childCate, 'name', name)) {
+        $('.error').innerHTML = '检测到相同名称的子分类已存在';
         return;
     }
     if (fatherName === '-1') {             // 添加分类
@@ -399,7 +442,7 @@ function typeAdd() {
             "child": []
         };
         cate.push(newCate);
-        localStorage.cate = JSON.stringify(cate);  // 保存
+        save();
     }
     else {                                 // 添加子分类
         var newChild = {
@@ -411,8 +454,7 @@ function typeAdd() {
         var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
         father.child.push(newChild.id);                       // 在父节点中登记
         childCate.push(newChild);
-        localStorage.cate = JSON.stringify(cate);  // 保存
-        localStorage.childCate = JSON.stringify(childCate);
+        save();
     }
     makeType();
     closePop();
@@ -421,11 +463,16 @@ function typeAdd() {
 // 进入编辑模式，编辑新任务
 function newTask() {
     $('.task .add').onclick = '';                                                // 暂时取消新建按钮的点击事件，防止重复点击
+    $.click(document.getElementsByClassName('btn3')[1], taskAdd);
 
-    $('.task-title span').style.display = 'none';                                // 进入编辑模式
+    document.getElementsByClassName('taskText')[0].value = '';                   // 进入编辑模式
+    document.getElementsByClassName('taskText')[1].value = '';
+    $('.myTextArea').value = '';
+    $('.task-title span').style.display = 'none';
     $('.task-date span').style.display = 'none';
     $('.task-content span').style.display = 'none';
     $('.set').style.display = 'none';
+    $('.taskError').style.display = 'inline';
     document.getElementsByClassName('taskText')[0].style.display = 'inline';
     document.getElementsByClassName('taskText')[1].style.display = 'inline';
     $('.myTextArea').style.display = 'inline';
@@ -441,11 +488,13 @@ function cancelAdd() {
     $('.task-date span').style.display = 'inline';
     $('.task-content span').style.display = 'inline';
     $('.set').style.display = 'inline';
+    $('.taskError').style.display = 'none';
     document.getElementsByClassName('taskText')[0].style.display = 'none';
     document.getElementsByClassName('taskText')[1].style.display = 'none';
     $('.myTextArea').style.display = 'none';
     document.getElementsByClassName('btn3')[0].style.display = 'none';
     document.getElementsByClassName('btn3')[1].style.display = 'none';
+    $('.taskError').innerHTML = '';
 }
 
 // 添加新任务
@@ -453,6 +502,28 @@ function taskAdd() {
     var name = document.getElementsByClassName('taskText')[0].value;
     var date = document.getElementsByClassName('taskText')[1].value;
     var content = $('.myTextArea').value;
+    var dateSplit = date.split('-');
+
+    if (name.length === 0) {
+        $('.taskError').innerHTML = '任务标题不能为空';
+        return;
+    }
+    else if (date.length === 0) {
+        $('.taskError').innerHTML = '任务日期不能为空';
+        return;
+    }
+    else if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        $('.taskError').innerHTML = '任务日期格式错误';
+        return;
+    }
+    else if (dateSplit[1] < 1 || dateSplit[1] > 12 || dateSplit[2] < 1 || dateSplit[2] > 31) {
+        $('.taskError').innerHTML = '不要骗我，根本没有这一天';
+        return;
+    }
+    else if (getObjByKey(task, 'name', name)) {
+        $('.taskError').innerHTML = '检测到相同名称的任务已存在';
+        return;
+    }
 
     var father;
     var typeChoose = $('.type-wrap .choose');
@@ -485,9 +556,10 @@ function taskAdd() {
         "content": content
     };
     task.push(newTask);
-    localStorage.task = JSON.stringify(task);  // 保存
     var fatherObj = getObjByKey(childCate, 'id', newTask.father);
     fatherObj.child.push(newTask.id);
+
+    save();
     makeType();
     var h6 = document.getElementsByTagName('h6');      // 选中新建的任务
     for (var i = 0; i < h6.length; i++) {
@@ -506,11 +578,11 @@ function del(e, ele) {
     var ele = ele.parentNode;
     var tag = ele.tagName.toLowerCase();
     var index;
-    var name;
+    var name = ele.getElementsByTagName('span')[0].innerHTML;;
     switch (tag) {
         case 'h3':                                                          // 删除一个分类
-            name = ele.getElementsByTagName('span')[0].innerHTML;
             index = getIndexByKey(cate, 'name', name);
+
             for (var i = 0; i < cate[index].child.length; i++) {            // 删除该分类下的所有子分类及任务
                 var childIndex = getIndexByKey(childCate, 'id', cate[index].child[i]);
                 for (var j = 0; j < childCate[childIndex].child.length; j ++) {
@@ -519,25 +591,30 @@ function del(e, ele) {
                 }
                 childCate.splice(childIndex, 1);
             }
-            localStorage.cate = JSON.stringify(childCate);                  // 保存
             cate.splice(index, 1);
-            localStorage.cate = JSON.stringify(cate);                       // 保存
-            makeType();
             break;
         case 'h4':                                                          // 删除一个子分类
-            name = ele.getElementsByTagName('span')[0].innerHTML;
             index = getIndexByKey(childCate, 'name', name);
+
             for (var i = 0; i < childCate[index].child.length; i++) {       // 删除该子分类下的所有任务
                 var taskIndex = getIndexByKey(task, 'id', childCate[index].child[i])
                 task.splice(taskIndex, 1);
             }
-            var fatherIndex = getIndexByKey(cate, 'id', childCate[index].father);  // 删除父节点中的记录
-            cate[fatherIndex].child.splice(cate[fatherIndex].child.indexOf(childCate[index].id), 1);
+
+            var fatherObj = getObjByKey(cate, 'id', childCate[index].father);  // 删除父节点中的记录
+            fatherObj.child.splice(fatherObj.child.indexOf(childCate[index].id), 1);
             childCate.splice(index, 1);
-            localStorage.cate = JSON.stringify(childCate);                  // 保存
-            makeType();
+            break;
+        case 'h6':
+            index = getIndexByKey(task, 'name', name);
+
+            var fatherObj = getObjByKey(childCate, 'id', task[index].father);  // 删除父节点中的记录
+            fatherObj.child.splice(fatherObj.child.indexOf(task[index].id), 1);
+            task.splice(index, 1);
             break;
     }
+    save();
+    makeType();
 }
 
 // 刷新分类对象的num属性
@@ -553,13 +630,86 @@ function setNum() {
     }
 }
 
+// 设置任务为已完成状态
+function finishTask() {
+    var taskName = $('.task-title span').innerHTML;
+    var taskObj = getObjByKey(task, 'name', taskName);
+    taskObj.finish = true;
+    makeTask();
+}
+
+// 修改已有的任务
+function editTask() {
+    $('.task .add').onclick = '';                                               // 暂时取消新建按钮的点击事件，防止重复点击
+    $.click(document.getElementsByClassName('btn3')[1], taskChange);            // 绑定保存按钮的点击事件
+
+    document.getElementsByClassName('taskText')[0].value = '';                  // 进入修改模式
+    document.getElementsByClassName('taskText')[1].value = '';
+    $('.myTextArea').value = '';
+    $('.task-date span').style.display = 'none';
+    $('.task-content span').style.display = 'none';
+    $('.set').style.display = 'none';
+    $('.taskError').style.display = 'inline';
+    document.getElementsByClassName('taskText')[1].style.display = 'inline';
+    $('.myTextArea').style.display = 'inline';
+    document.getElementsByClassName('btn3')[0].style.display = 'inline';
+    document.getElementsByClassName('btn3')[1].style.display = 'inline';
+
+    document.getElementsByClassName('taskText')[1].value = $('.task-date span').innerHTML;
+    $('.myTextArea').value = $('.task-content span').innerHTML;
+}
+
+// 保存修改
+function taskChange() {
+    var name = $('.task-title span').innerHTML;
+    var taskObj = getObjByKey(task, 'name', name);
+    var date = document.getElementsByClassName('taskText')[1].value;
+    var content = $('.myTextArea').value;
+    var dateSplit = date.split('-');
+
+    if (date.length === 0) {
+        $('.taskError').innerHTML = '任务日期不能为空';
+        return;
+    }
+    else if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        $('.taskError').innerHTML = '任务日期格式错误';
+        return;
+    }
+    else if (dateSplit[1] < 1 || dateSplit[1] > 12 || dateSplit[2] < 1 || dateSplit[2] > 31) {
+        $('.taskError').innerHTML = '不要骗我，根本没有这一天';
+        return;
+    }
+
+    taskObj.date = date;
+    taskObj.content = content;
+    save();
+
+    makeType();
+    var h6 = document.getElementsByTagName('h6');      // 选中新建的任务
+    for (var i = 0; i < h6.length; i++) {
+        var span = h6[i].getElementsByTagName('span')[0];
+        if (span.innerHTML === name) {
+            span.click();
+            break;
+        }
+    }
+    cancelAdd();
+}
+
+// 保存数据
+function save() {
+    localStorage.childCate = JSON.stringify(childCate);
+    localStorage.cate = JSON.stringify(cate);
+    localStorage.task = JSON.stringify(task);
+}
+
 window.onload = function () {
-    //if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
+    if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
         localStorage.cate = cateText;
         localStorage.childCate = childCateText;
         localStorage.task = taskText;
         $('#type-all').className = 'choose';
-    //}
+    }
     cate = JSON.parse(localStorage.cate);
     childCate = JSON.parse(localStorage.childCate);
     task = JSON.parse(localStorage.task);
@@ -569,9 +719,5 @@ window.onload = function () {
 
 /*
  * todo
- * h6删除按钮
- * 筛选菜单bug
- * 新建任务后点击所有任务选项的bug
- * 完成 修改 功能
- * 新任务合法性验证
+ * 删除后选择第一个
  */
