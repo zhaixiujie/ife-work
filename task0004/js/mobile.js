@@ -1,5 +1,5 @@
 /**
- * Created by DIYgod on 15/5/10.
+ * Created by DIYgod on 15/5/23.
  */
 
 // localStorage + JSON 存储任务数据
@@ -19,7 +19,7 @@ var cateText = '['
     +     '"name": "百度IFE项目",'
     +     '"child": [1, 3]'
     + '}'
-+ ']';
+    + ']';
 
 var childCateText = '['
     + '{'
@@ -40,7 +40,7 @@ var childCateText = '['
     +     '"child": [3],'
     +     '"father": 1'
     + '}'
-+ ']';
+    + ']';
 
 var taskText = '['
     + '{'
@@ -75,7 +75,7 @@ var taskText = '['
     +     '"date": "2015-06-29",'
     +     '"content": "完成 task0002 的编码任务。"'
     + '}'
-+ ']';
+    + ']';
 
 // 生成任务分类列表
 function makeType() {
@@ -94,11 +94,11 @@ function makeType() {
         for (var j = 0; j < cate[i].child.length; j++) {
             var childNode = getObjByKey(childCate, 'id', cate[i].child[j]);
             html += ''
-            +         '<li>'
-            +             '<h4 onclick="typeClick(this)">'
-            +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
-            +             '</h4>'
-            +         '</li>'
+                +         '<li>'
+                +             '<h4 onclick="typeClick(this)">'
+                +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
+                +             '</h4>'
+                +         '</li>'
         }
         html += ''
             +     '</ul>'
@@ -107,44 +107,6 @@ function makeType() {
     html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认分类的删除按钮
     html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认子分类的删除按钮
     $('.item-wrap').innerHTML = html;
-
-    if (oldChoose) {                                          // 恢复之前选中的选项
-        var tag = oldChoose.tagName.toLowerCase();
-        var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
-        var isClick = false;
-        switch (tag) {
-            case 'h2':
-                $('h2').click();
-                isClick = true;
-                break;
-            case 'h3':
-                var cateEle = document.getElementsByTagName('h3');
-                for (var i = 0; i < cateEle.length; i++) {
-                    if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
-                        cateEle[i].click();
-                        isClick = true;
-                        break;
-                    }
-                }
-                break;
-            case 'h4':
-                var childEle = document.getElementsByTagName('h4');
-                for (var i = 0; i < childEle.length; i++) {
-                    if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
-                        childEle[i].click();
-                        isClick = true;
-                        break;
-                    }
-                }
-                break;
-        }
-        if (!isClick) {                                   // 之前选中的元素不再显示的情况
-            $('h2').click();
-        }
-    }
-    else {                   // 否则默认选择第一个分类
-        $('h2').click();
-    }
 
     makeTask();
 }
@@ -183,25 +145,6 @@ function makeTask() {
             break;
     }
 
-    if (oldChoose) {                                          // 恢复之前选中的选项
-        var childEle = document.getElementsByTagName('h6');
-        var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
-        var isClick = false;
-        for (var i = 0; i < childEle.length; i++) {
-            if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
-                childEle[i].click();
-                isClick = true;
-                break;
-            }
-            if (!isClick && $('h6')) {                                   // 之前选中的元素不再显示的情况
-                $('h6').click();
-            }
-        }
-    }
-    else if ($('h6')) {                   // 否则默认选择第一个任务
-        $('h6').click();
-    }
-
     makeDetails();
 }
 
@@ -227,17 +170,17 @@ function makeTaskById(taskIdArr) {
             if (taskObj.date === date[i]) {
                 if (taskObj.finish === true) {
                     html += ''
-            +         '<li class="task-item task-finish">'
+                        +         '<li class="task-item task-finish">'
                 }
                 else if (taskObj.finish === false) {
                     html += ''
-            +         '<li class="task-item">'
+                        +         '<li class="task-item">'
                 }
                 html += ''
-            +             '<h6 onclick="taskClick(this)">'
-            +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
-            +             '</h6>'
-            +         '</li>'
+                    +             '<h6 onclick="taskClick(this)">'
+                    +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
+                    +             '</h6>'
+                    +         '</li>'
             }
         }
         html += ''
@@ -301,6 +244,7 @@ function makeDetails() {
 
 // 任务分类列表点击效果
 function typeClick(ele) {
+    location.href = '#task';
     var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
     for (var i = 0; i < otherChoose.length; i++) {
         if (otherChoose[i].className === 'choose') {
@@ -314,6 +258,7 @@ function typeClick(ele) {
 
 // 任务列表点击效果
 function taskClick(ele) {
+    location.href = '#details';
     var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
     for (var i = 0; i < otherChoose.length; i++) {
         if (otherChoose[i].className === 'choose') {
@@ -366,14 +311,6 @@ function statusClick(ele) {
             }
         }
     }
-
-    var h6 = document.getElementsByTagName('h6');        // 默认选择第一个任务
-    for (var i = 0; i < h6.length; i++) {
-        if (h6[i].parentNode.style.display !== 'none') {
-            h6[i].onclick();
-            break;
-        }
-    }
 }
 
 // 新分类弹窗，编辑新分类
@@ -384,7 +321,7 @@ function newType() {
     var html = ''
         + '<p>'
         +     '新分类名称:'
-        +     '<input type="text" class="myText typeText" placeholder="在此输入新分类的名称">'
+        +     '<input type="text" class="myText typeText">'
         + '</p>'
         + '<p>'
         +     '新分类父节点:'
@@ -395,7 +332,7 @@ function newType() {
     var itemName = itemWrap.getElementsByTagName('h3');
     for (var i = 0; i < itemName.length; i++) {
         html += ''
-        +         '<option value="'+ i +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
+            +         '<option value="'+ i +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
     }
 
     html += ''
@@ -462,6 +399,7 @@ function typeAdd() {
 
 // 进入编辑模式，编辑新任务
 function newTask() {
+    location.href = '#details';
     $('.task .add').onclick = '';                                                // 暂时取消新建按钮的点击事件，防止重复点击
 
     document.getElementsByClassName('taskText')[0].value = '';                   // 进入编辑模式
@@ -481,6 +419,7 @@ function newTask() {
 
 // 退出编辑模式，放弃添加新任务
 function cancelAdd() {
+    location.href = '#task';
     $.click($('.task .add'), newTask);                                 // 重新绑定新建按钮的点击事件
 
     $('.task-title span').style.display = 'inline';                              // 退出编辑模式
@@ -710,6 +649,10 @@ function taskChange() {
     cancelAdd();
 }
 
+function showDel() {
+    alert('aa');
+}
+
 // 保存数据
 function save() {
     localStorage.childCate = JSON.stringify(childCate);
@@ -718,6 +661,7 @@ function save() {
 }
 
 window.onload = function () {
+    location.href = '#type';
     if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
         localStorage.cate = cateText;
         localStorage.childCate = childCateText;

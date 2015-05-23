@@ -2,17 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
     <title>GTD Tools - Anotherhome</title>
-    <link rel="shortcut icon" href="img/favicon.ico">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/fontello.css">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/fontello.css">
 </head>
 <body>
     <header>
         <h1>GTD Tools</h1>
     </header>
     <div class="content">
-        <div class="type">
+        <div class="type" id="type">
             <ul class="type-wrap">
                 <li>
                     <h2 id="type-all" onclick="typeClick(this)"></h2>
@@ -26,8 +27,9 @@
                 <i class="icon-plus"></i>
             </div>
         </div>
-        <div class="task">
+        <div class="task" id="task">
             <div class="status">
+                <div class="back"><a href="#type"><div>返回</div></a></div>
                 <ul>
                     <li class="choose" onclick="statusClick(this)">所有</li>
                     <li onclick="statusClick(this)"><i class="icon-emo-surprised"></i>未完成</li>
@@ -39,8 +41,9 @@
                 <i class="icon-plus"></i>
             </div>
         </div>
-        <div class="details">
+        <div class="details" id="details">
             <div class="task-info task-title">
+                <div class="back"><a href="#task"><div>返回</div></a></div>
                 任务标题：
                 <span></span>
                 <input type="text" class="myText taskText" placeholder="在此输入任务标题">
@@ -71,7 +74,7 @@
         <div class="pop-content"></div>
     </div>
     <div class="overlay"></div>
-    <script src="js/util.js"></script>
-    <script src="js/gtd.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="../js/mobile.js"></script>
 </body>
 </html>
