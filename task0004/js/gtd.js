@@ -384,7 +384,7 @@ function newType() {
     var html = ''
         + '<p>'
         +     '新分类名称:'
-        +     '<input type="text" class="myText typeText" placeholder="在此输入新分类的名称">'
+        +     '<input type="text" class="typeText" placeholder="在此输入新分类的名称">'
         + '</p>'
         + '<p>'
         +     '新分类父节点:'
