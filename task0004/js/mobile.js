@@ -19,7 +19,7 @@ var cateText = '['
     +     '"name": "百度IFE项目",'
     +     '"child": [1, 3]'
     + '}'
-    + ']';
++ ']';
 
 var childCateText = '['
     + '{'
@@ -40,7 +40,7 @@ var childCateText = '['
     +     '"child": [3],'
     +     '"father": 1'
     + '}'
-    + ']';
++ ']';
 
 var taskText = '['
     + '{'
@@ -75,7 +75,7 @@ var taskText = '['
     +     '"date": "2015-06-29",'
     +     '"content": "完成 task0002 的编码任务。"'
     + '}'
-    + ']';
++ ']';
 
 // 生成任务分类列表
 function makeType() {
@@ -94,11 +94,11 @@ function makeType() {
         for (var j = 0; j < cate[i].child.length; j++) {
             var childNode = getObjByKey(childCate, 'id', cate[i].child[j]);
             html += ''
-                +         '<li>'
-                +             '<h4 onclick="typeClick(this)">'
-                +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
-                +             '</h4>'
-                +         '</li>'
+            +         '<li>'
+            +             '<h4 onclick="typeClick(this)">'
+            +                 '<i class="icon-doc-text"></i><span>' + childNode.name + '</span>(' + childNode.child.length + ')<i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
+            +             '</h4>'
+            +         '</li>'
         }
         html += ''
             +     '</ul>'
@@ -170,17 +170,17 @@ function makeTaskById(taskIdArr) {
             if (taskObj.date === date[i]) {
                 if (taskObj.finish === true) {
                     html += ''
-                        +         '<li class="task-item task-finish">'
+            +         '<li class="task-item task-finish">'
                 }
                 else if (taskObj.finish === false) {
                     html += ''
-                        +         '<li class="task-item">'
+            +         '<li class="task-item">'
                 }
                 html += ''
-                    +             '<h6 onclick="taskClick(this)">'
-                    +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
-                    +             '</h6>'
-                    +         '</li>'
+            +             '<h6 onclick="taskClick(this)">'
+            +                 '<i class="icon-check"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
+            +             '</h6>'
+            +         '</li>'
             }
         }
         html += ''

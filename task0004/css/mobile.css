@@ -71,7 +71,9 @@ header h1 {
   border-left: 12px;
   width: 31px;
   height: 21px;
-  border-image: url(../img/back.png) 8 8 10 24;
+  -webkit-border-image: url(../img/back.png) 8 8 10 24;
+       -o-border-image: url(../img/back.png) 8 8 10 24;
+          border-image: url(../img/back.png) 8 8 10 24;
   font-size: 14px;
 }
 .back div {
@@ -364,8 +366,6 @@ header h1 {
   background-color: #fff;
   border: 1px solid #d9d9d9;
   border-top-color: #c0c0c0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .myTextArea:focus {
