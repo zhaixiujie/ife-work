@@ -1,7 +1,0 @@
-{
-  "name": "task0004-yo",
-  "private": true,
-  "dependencies": {
-    "jquery": "~1.11.1"
-  }
-}
