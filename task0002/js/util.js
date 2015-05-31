@@ -472,7 +472,7 @@ function ajax(url, options) {
     if (options.data) {
         var dataarr = [];
         for (var item in options.data) {
-            dataarr.push(item + '=' + options.data[item]);
+            dataarr.push(item + '=' + encodeURI(options.data[item]));
         }
         var data = dataarr.join('&');
     }
