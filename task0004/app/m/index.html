@@ -2,8 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    <meta name ="viewport" content ="width=device-width, initial-scale=1, user-scalable=no">
     <title>GTD Tools - Anotherhome</title>
+    <script>
+        (function () {
+            if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i)) {
+                location.href = '../index.html'
+            }
+        })();
+    </script>
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/mobile.css">
     <link rel="stylesheet" href="../styles/fontello.css">
@@ -75,6 +82,6 @@
     </div>
     <div class="overlay"></div>
     <script src="../scripts/util.js"></script>
-    <script src="../scripts/mobile.js"></script>
+    <script src="../scripts/main.js"></script>
 </body>
 </html>

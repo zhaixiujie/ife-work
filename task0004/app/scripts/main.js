@@ -7,6 +7,7 @@
 var cate;
 var childCate;
 var task;
+var isMobile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
 
 var cateText = '['
     + '{'
@@ -108,45 +109,49 @@ function makeType() {
     html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认子分类的删除按钮
     $('.item-wrap').innerHTML = html;
 
-    if (oldChoose) {                                          // 恢复之前选中的选项
-        var tag = oldChoose.tagName.toLowerCase();
-        var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
-        var isClick = false;
-        switch (tag) {
-            case 'h2':
+    if (!isMobile) {
+        if (oldChoose) {                                          // 恢复之前选中的选项
+            var tag = oldChoose.tagName.toLowerCase();
+            var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
+            var isClick = false;
+            switch (tag) {
+                case 'h2':
+                    $('h2').click();
+                    isClick = true;
+                    break;
+                case 'h3':
+                    var cateEle = document.getElementsByTagName('h3');
+                    for (var i = 0; i < cateEle.length; i++) {
+                        if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
+                            cateEle[i].click();
+                            isClick = true;
+                            break;
+                        }
+                    }
+                    break;
+                case 'h4':
+                    var childEle = document.getElementsByTagName('h4');
+                    for (var i = 0; i < childEle.length; i++) {
+                        if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
+                            childEle[i].click();
+                            isClick = true;
+                            break;
+                        }
+                    }
+                    break;
+            }
+            if (!isClick) {                                   // 之前选中的元素不再显示的情况
                 $('h2').click();
-                isClick = true;
-                break;
-            case 'h3':
-                var cateEle = document.getElementsByTagName('h3');
-                for (var i = 0; i < cateEle.length; i++) {
-                    if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
-                        cateEle[i].click();
-                        isClick = true;
-                        break;
-                    }
-                }
-                break;
-            case 'h4':
-                var childEle = document.getElementsByTagName('h4');
-                for (var i = 0; i < childEle.length; i++) {
-                    if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
-                        childEle[i].click();
-                        isClick = true;
-                        break;
-                    }
-                }
-                break;
+            }
         }
-        if (!isClick) {                                   // 之前选中的元素不再显示的情况
+        else {                   // 否则默认选择第一个分类
             $('h2').click();
         }
     }
-    else {                   // 否则默认选择第一个分类
-        $('h2').click();
-    }
 
-    makeTask();
+    if (!isMobile) {
+        makeTask();
+    }
 }
 
 // 生成任务列表
@@ -183,26 +188,30 @@ function makeTask() {
             break;
     }
 
-    if (oldChoose) {                                          // 恢复之前选中的选项
-        var childEle = document.getElementsByTagName('h6');
-        var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
-        var isClick = false;
-        for (var i = 0; i < childEle.length; i++) {
-            if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
-                childEle[i].click();
-                isClick = true;
-                break;
-            }
-            if (!isClick && $('h6')) {                                   // 之前选中的元素不再显示的情况
-                $('h6').click();
+    if (!isMobile) {
+        if (oldChoose) {                                          // 恢复之前选中的选项
+            var childEle = document.getElementsByTagName('h6');
+            var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
+            var isClick = false;
+            for (var i = 0; i < childEle.length; i++) {
+                if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
+                    childEle[i].click();
+                    isClick = true;
+                    break;
+                }
+                if (!isClick && $('h6')) {                                   // 之前选中的元素不再显示的情况
+                    $('h6').click();
+                }
             }
         }
-    }
-    else if ($('h6')) {                   // 否则默认选择第一个任务
-        $('h6').click();
+        else if ($('h6')) {                   // 否则默认选择第一个任务
+            $('h6').click();
+        }
     }
 
-    makeDetails();
+    if (!isMobile) {
+        makeDetails();
+    }
 }
 
 // 根据传入的ID生成任务列表
@@ -301,6 +310,9 @@ function makeDetails() {
 
 // 任务分类列表点击效果
 function typeClick(ele) {
+    if (isMobile) {
+        location.href = '#task';
+    }
     var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
     for (var i = 0; i < otherChoose.length; i++) {
         if (otherChoose[i].className === 'choose') {
@@ -314,6 +326,9 @@ function typeClick(ele) {
 
 // 任务列表点击效果
 function taskClick(ele) {
+    if (isMobile) {
+        location.href = '#details';
+    }
     var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
     for (var i = 0; i < otherChoose.length; i++) {
         if (otherChoose[i].className === 'choose') {
@@ -367,11 +382,13 @@ function statusClick(ele) {
         }
     }
 
-    var h6 = document.getElementsByTagName('h6');        // 默认选择第一个任务
-    for (var i = 0; i < h6.length; i++) {
-        if (h6[i].parentNode.style.display !== 'none') {
-            h6[i].onclick();
-            break;
+    if (!isMobile) {
+        var h6 = document.getElementsByTagName('h6');        // 默认选择第一个任务
+        for (var i = 0; i < h6.length; i++) {
+            if (h6[i].parentNode.style.display !== 'none') {
+                h6[i].onclick();
+                break;
+            }
         }
     }
 }
@@ -462,6 +479,9 @@ function typeAdd() {
 
 // 进入编辑模式，编辑新任务
 function newTask() {
+    if (isMobile) {
+        location.href = '#details';
+    }
     $('.task .add').onclick = '';                                                // 暂时取消新建按钮的点击事件，防止重复点击
 
     document.getElementsByClassName('taskText')[0].value = '';                   // 进入编辑模式
@@ -481,6 +501,9 @@ function newTask() {
 
 // 退出编辑模式，放弃添加新任务
 function cancelAdd() {
+    if (isMobile) {
+        location.href = '#task';
+    }
     $.click($('.task .add'), newTask);                                 // 重新绑定新建按钮的点击事件
 
     $('.task-title span').style.display = 'inline';                              // 退出编辑模式
@@ -718,6 +741,9 @@ function save() {
 }
 
 window.onload = function () {
+    if (isMobile) {
+        location.href = '#type';
+    }
     if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
         localStorage.cate = cateText;
         localStorage.childCate = childCateText;
