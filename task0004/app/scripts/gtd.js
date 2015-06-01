@@ -416,7 +416,7 @@ function closePop() {
 
 // 添加新分类
 function typeAdd() {
-    var name = $('.typeText').value;
+    var name = htmlEncode($('.typeText').value);    // XSS 防护
     var fatherName = $('.mySelect').value;
     if (name.length === 0) {              // 检测输入合法性
         $('.error').innerHTML = '分类名称不能为空';
@@ -498,9 +498,9 @@ function cancelAdd() {
 
 // 添加新任务
 function taskAdd() {
-    var name = document.getElementsByClassName('taskText')[0].value;
-    var date = document.getElementsByClassName('taskText')[1].value;
-    var content = $('.myTextArea').value;
+    var name = htmlEncode(document.getElementsByClassName('taskText')[0].value);   // XSS 防护
+    var date = htmlEncode(document.getElementsByClassName('taskText')[1].value);
+    var content = htmlEncode($('.myTextArea').value);
     var dateSplit = date.split('-');
 
     if (name.length === 0) {
@@ -677,8 +677,8 @@ function editTask() {
 function taskChange() {
     var name = $('.task-title span').innerHTML;
     var taskObj = getObjByKey(task, 'name', name);
-    var date = document.getElementsByClassName('taskText')[1].value;
-    var content = $('.myTextArea').value;
+    var date = htmlEncode(document.getElementsByClassName('taskText')[1].value);  // XSS 防护
+    var content = htmlEncode($('.myTextArea').value);
     var dateSplit = date.split('-');
 
     if (date.length === 0) {

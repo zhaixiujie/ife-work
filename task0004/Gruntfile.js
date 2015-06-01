@@ -30,26 +30,26 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
+      /*bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= config.app %>/scripts/{,*/}*.js'],
+        files: ['<%= config.app %>/scripts/{,*!/}*.js'],
         tasks: ['jshint'],
         options: {
           livereload: true
         }
       },
       jstest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/spec/{,*!/}*.js'],
         tasks: ['test:watch']
       },
       gruntfile: {
         files: ['Gruntfile.js']
       },
       styles: {
-        files: ['<%= config.app %>/styles/{,*/}*.css'],
+        files: ['<%= config.app %>/styles/{,*!/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
       },
       livereload: {
@@ -57,10 +57,14 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= config.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
-          '<%= config.app %>/images/{,*/}*'
+          '<%= config.app %>/{,*!/}*.html',
+          '.tmp/styles/{,*!/}*.css',
+          '<%= config.app %>/images/{,*!/}*'
         ]
+      },*/
+      less: {
+        files: ['<%= config.app %>/styles/{,*/}*.less'],
+        tasks: ['less']
       }
     },
 

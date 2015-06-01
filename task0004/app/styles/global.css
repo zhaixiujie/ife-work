@@ -161,6 +161,9 @@ header h1 {
   line-height: 26px;
   padding: 0 5px;
 }
+.back {
+  display: none;
+}
 .task-wrap {
   position: absolute;
   top: 40px;

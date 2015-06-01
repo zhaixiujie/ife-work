@@ -71,7 +71,7 @@ header h1 {
   border-left: 12px;
   width: 31px;
   height: 21px;
-  border-image: url(../img/back.png) 8 8 10 24;
+  border-image: url(../images/back.png) 8 8 10 24;
   font-size: 14px;
 }
 .back div {
