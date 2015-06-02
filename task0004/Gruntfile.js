@@ -192,8 +192,8 @@ module.exports = function (grunt) {
             '<%= config.dist %>/scripts/{,*/}*.js',
             '<%= config.dist %>/styles/{,*/}*.css',
             '<%= config.dist %>/images/{,*/}*.*',
-            '<%= config.dist %>/font/{,*/}*.*',
-            '<%= config.dist %>/*.{ico,png}'
+            // '<%= config.dist %>/font/{,*/}*.*',
+            // '<%= config.dist %>/*.{ico,png}'
           ]
         }
       }
@@ -388,7 +388,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy:dist',
-    // 'rev',
+    'rev',
     'usemin',
     'htmlmin'
   ]);

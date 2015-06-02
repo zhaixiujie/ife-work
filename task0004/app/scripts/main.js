@@ -8,6 +8,7 @@ var cate;
 var childCate;
 var task;
 var isMobile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
+var oldHash = '#type';
 
 var cateText = '['
     + '{'
@@ -738,6 +739,38 @@ function save() {
     localStorage.childCate = JSON.stringify(childCate);
     localStorage.cate = JSON.stringify(cate);
     localStorage.task = JSON.stringify(task);
+}
+
+/* 滑动效果 */
+window.onhashchange = function () {
+    var newHash = location.hash;
+    var oldEle = $('.' + oldHash.substr(1));
+    var newEle = $('.' + newHash.substr(1));
+    if ((oldHash == '#type' && newHash == '#task') || (oldHash == '#task' && newHash == '#details') ) {
+        oldEle.className += ' slide out';
+        newEle.className += ' slide in';
+        newEle.style.display = 'block';
+        oldEle.style.display = 'block';
+        setTimeout(function () {
+            newEle.style.display = 'block';
+            oldEle.style.display = 'none';
+            oldEle.className = oldEle.className.replace(/ slide out/, '');
+            newEle.className = newEle.className.replace(/ slide in/, '');
+        }, 225);
+    }
+    else if ((oldHash == '#task' && newHash == '#type') || (oldHash == '#details' && newHash == '#task')) {
+        newEle.className += ' slide reverse in';
+        oldEle.className += ' slide reverse out';
+        oldEle.style.display = 'block';
+        newEle.style.display = 'block';
+        setTimeout(function () {
+            oldEle.style.display = 'none';
+            newEle.style.display = 'block';
+            newEle.className = newEle.className.replace(/ slide reverse in/, '');
+            oldEle.className = oldEle.className.replace(/ slide reverse out/, '');
+        }, 225);
+    }
+    oldHash = newHash;
 }
 
 window.onload = function () {

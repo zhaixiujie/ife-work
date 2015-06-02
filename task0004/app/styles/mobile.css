@@ -82,7 +82,7 @@ header h1 {
 }
 /* type部分 */
 .type {
-  display: none;
+  display: block;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -92,9 +92,6 @@ header h1 {
   border-radius: 5px;
   width: 100%;
   padding-top: 7px;
-}
-.type:target {
-  display: block;
 }
 .type-wrap {
   height: 100%;
@@ -124,7 +121,6 @@ header h1 {
 }
 /* task部分 */
 .task {
-  display: none;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -133,9 +129,7 @@ header h1 {
   z-index: 1;
   border-radius: 5px;
   width: 100%;
-}
-.task:target {
-  display: block;
+  display: none;
 }
 .status {
   position: absolute;
@@ -192,7 +186,6 @@ header h1 {
 }
 /* details部分 */
 .details {
-  display: none;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -201,9 +194,7 @@ header h1 {
   z-index: 1;
   border-radius: 5px;
   width: 100%;
-}
-.details:target {
-  display: block;
+  display: none;
 }
 .task-info {
   width: 100%;
@@ -374,4 +365,88 @@ header h1 {
   color: #d50000;
   float: left;
   margin-top: 10px;
+}
+/* 滑动效果 from mobilebone */
+.slide.out,
+.slide.in {
+  animation-timing-function: ease-out;
+  animation-duration: 225ms;
+}
+.slide.in {
+  animation-name: slideinfromright;
+}
+.slide.out {
+  animation-name: slideouttoleft;
+}
+.slide.reverse.out {
+  animation-name: slideouttoright;
+}
+.slide.reverse.in {
+  animation-name: slideinfromleft;
+}
+/* keyframes for slidein from sides */
+@-webkit-keyframes slideinfromright {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideinfromright {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes slideinfromleft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideinfromleft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+/* keyframes for slideout to sides */
+@-webkit-keyframes slideouttoleft {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+}
+@keyframes slideouttoleft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@-webkit-keyframes slideouttoright {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(100%, 0, 0);
+  }
+}
+@keyframes slideouttoright {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
