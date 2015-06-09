@@ -369,19 +369,25 @@ header h1 {
 /* 滑动效果 from mobilebone */
 .slide.out,
 .slide.in {
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-duration: 225ms;
   animation-timing-function: ease-out;
   animation-duration: 225ms;
 }
 .slide.in {
+  -webkit-animation-name: slideinfromright;
   animation-name: slideinfromright;
 }
 .slide.out {
+  -webkit-animation-name: slideouttoleft;
   animation-name: slideouttoleft;
 }
 .slide.reverse.out {
+  -webkit-animation-name: slideouttoright;
   animation-name: slideouttoright;
 }
 .slide.reverse.in {
+  -webkit-animation-name: slideinfromleft;
   animation-name: slideinfromleft;
 }
 /* keyframes for slidein from sides */

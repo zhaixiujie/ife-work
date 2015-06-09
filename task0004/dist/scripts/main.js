@@ -1,0 +1,1 @@
+require(["gtd"],function(a){a.init(),a.makeType()});
