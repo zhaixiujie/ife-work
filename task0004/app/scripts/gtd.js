@@ -82,11 +82,6 @@ define(['util', 'selector'], function (util, $) {
             + '}'
             + ']';
 
-        cate = JSON.parse(localStorage.cate);
-        childCate = JSON.parse(localStorage.childCate);
-        task = JSON.parse(localStorage.task);
-        isMobile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
-
         if (isMobile) {
             location.href = '#type';
         }
@@ -97,8 +92,13 @@ define(['util', 'selector'], function (util, $) {
             $('#type-all').className = 'choose';
         }
 
+        cate = JSON.parse(localStorage.cate);
+        childCate = JSON.parse(localStorage.childCate);
+        task = JSON.parse(localStorage.task);
+        isMobile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
+
         addClick($('#type-all'), typeClick);
-        addClick($('.add'), newType)
+        addClick($('.add'), newType);
         addClick(document.getElementsByClassName('add')[1], newTask);
         addClick($('.status').getElementsByTagName('li'), statusClick);
         addClick($('.icon-check'), finishTask);
