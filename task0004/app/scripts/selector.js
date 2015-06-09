@@ -1,18 +1,7 @@
 /**
  * Created by DIYgod on 15/6/8.
  */
-define(function() {
-    // 对数组进行去重操作，只考虑数组中元素为数字或字符串，返回一个去重后的数组
-    function uniqArray(arr) {
-        var new_array = [];
-        for (var i = 0, len = arr.length; i < len; i++) {
-            if (arr[i] !== '' && new_array.indexOf(arr[i]) < 0) {
-                new_array.push(arr[i]);
-            }
-        }
-        return new_array;
-    }
-
+define(['util'], function(util) {
     function $(selector) {
         var childs = function (element) {    // 递归获取所有子元素
             return element.getElementsByTagName('*');
@@ -38,7 +27,7 @@ define(function() {
                     break;
                 case '.':
                     for (var j = 0; j < eleLen; j++) {
-                        var name = uniqArray(ele[j].className.split(' '));
+                        var name = util.uniqArray(ele[j].className.split(' '));
                         if (name.indexOf(sele[i].substring(1)) !== -1) {
                             ele = ele[j];
                             isGet = true;
