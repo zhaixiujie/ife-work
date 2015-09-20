@@ -418,9 +418,10 @@ function addClickEvent(element, listener) {
 // 实现对于按Enter键时的事件绑定
 function addEnterEvent(element, listener) {
     addEvent(element, 'keydown', function(e) {
-        e = e || window.event;
-        if (e.keyCode === 13) {
-            listener();
+        var event = e || window.event;
+        var keyCode = event.which || event.keyCode;
+        if (keyCode === 13) {
+            listener.call(element, event);
         }
     });
 }
@@ -498,7 +499,7 @@ function isIE() {
     }
     */
     return /msie (\d+\.\d+)/i.test(navigator.userAgent)
-        ? (document.documentMode || + RegExp['\x241']) : undefined;
+        ? (document.documentMode || + RegExp['\x241']) : -1;
 }
 
 
