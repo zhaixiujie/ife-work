@@ -279,7 +279,7 @@ function hasClass(element, className) {
 // 为element增加一个样式名为newClassName的新样式
 function addClass(element, newClassName) {
     if (!hasClass(element, newClassName)) {
-        element.className += ' ' + newClassName;
+        element.className = trim(element.className + ' ' + newClassName);
     }
 }
 
@@ -396,12 +396,12 @@ $("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第
 // task 4.1
 // 给一个element绑定一个针对event事件的响应，响应函数为listener
 function addEvent(element, event, listener) {
-    element.addEventListener('on' + event, listener);
+    element.addEventListener(event, listener);
 }
 
 // 移除element对象对于event事件发生时执行listener的响应
 function removeEvent(element, event, listener) {
-    element.removeEventListener('on' + event, listener);
+    element.removeEventListener(event, listener);
 }
 
 // 实现对click事件的绑定

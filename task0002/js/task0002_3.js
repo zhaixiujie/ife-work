@@ -11,11 +11,11 @@ window.onload = function () {
     function showButton() {         // 显示小圆点
         for (var i = 0, len = button.length; i < len; i++) {
             if (button[i].className === 'light') {
-                button[i].className = '';
+                removeClass(button[i], 'light');
                 break;
             }
         }
-        button[index].className = 'light';
+        addClass(button[index], 'light');
     }
 
     var animated = false;            // 是否正在进行切换
@@ -90,7 +90,7 @@ function playASC() {          // 正序播放
     }
     var next = $('#next');
     timer = setInterval(function () {
-        next.onclick();
+        next.click();
     }, 1000);
 }
 
@@ -100,7 +100,7 @@ function playDESC() {          // 逆序播放
     }
     var prev = $('#prev');
     timer = setInterval(function () {
-        prev.onclick();
+        prev.click();
     }, 1000);
 }
 
