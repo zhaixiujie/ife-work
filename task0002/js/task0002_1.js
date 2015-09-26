@@ -18,7 +18,6 @@ function showHobby() {
 
         var result = document.createElement('div');
         result.className = 'result';
-        $('.center').appendChild(result);
         var h3 = document.createElement('h3');
         h3.innerHTML = '爱好：';
         result.appendChild(h3);
@@ -29,6 +28,7 @@ function showHobby() {
             var data = document.createTextNode(hobby[i] + ' ');
             result.appendChild(data);
         }
+        $('.center').appendChild(result);    // 注意减少页面重绘：用js 拼好，最好一次性 append 或者 innerHTML
     }
 }
 
