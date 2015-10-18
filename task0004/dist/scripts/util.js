@@ -1,1 +1,0 @@
-define(function(){function a(a){for(var b=[],c=0,d=a.length;d>c;c++)""!==a[c]&&b.indexOf(a[c])<0&&b.push(a[c]);return b}function b(a){return a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#x27;").replace(/\//g,"&#x2f;").replace(/\n/g,"<br>")}return{uniqArray:a,htmlEncode:b}});
