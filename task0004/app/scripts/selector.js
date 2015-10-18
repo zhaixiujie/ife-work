@@ -3,75 +3,49 @@
  */
 define(['util'], function(util) {
     function $(selector) {
-        var childs = function (element) {    // 递归获取所有子元素
-            return element.getElementsByTagName('*');
-        }
-
-        var ele = document.getElementsByTagName('html')[0];    // 获取所有元素
+        var ele = document;
         var sele = selector.replace(/\s+/, ' ').split(' ');    // 去除多余的空格并分割
 
         for (var i = 0, len = sele.length; i < len; i++) {
-            ele = childs(ele);
-            var eleLen = ele.length;
-            var isGet = false;
 
             switch (sele[i][0]) {    // 从子节点中查找
                 case '#':
-                    for (var j = 0; j < eleLen; j++) {
-                        if (ele[j].id === sele[i].substring(1)) {
-                            ele = ele[j];
-                            isGet = true;
-                            break;
-                        }
-                    }
+                    ele = ele.getElementById(sele[i].substring(1));
                     break;
                 case '.':
-                    for (var j = 0; j < eleLen; j++) {
-                        var name = util.uniqArray(ele[j].className.split(' '));
-                        if (name.indexOf(sele[i].substring(1)) !== -1) {
-                            ele = ele[j];
-                            isGet = true;
-                            break;
-                        }
-                    }
+                    ele = ele.getElementsByClassName(sele[i].substring(1))[0];
                     break;
                 case '[':
                     var valueLoc = sele[i].indexOf('=');
+                    var temp = ele.getElementsByTagName('*');
+                    var tLen = temp.length;
                     if (valueLoc !== -1) {
                         var key = sele[i].substring(1, valueLoc);
                         var value = sele[i].substring(valueLoc + 1, sele[i].length - 1);
-                        for (var j = 0; j < eleLen; j++) {
-                            if (ele[j][key] === value) {
-                                ele = ele[j];
-                                isGet = true;
+                        for (var j = 0; j < tLen; j++) {
+                            if (temp[j][key] === value) {
+                                ele = temp[j];
                                 break;
                             }
                         }
                     }
                     else {
                         var key = sele[i].substring(1, sele[i].length - 1);
-                        for (var j = 0; j < eleLen; j++) {
-                            if (ele[j][key]) {
-                                ele = ele[j];
-                                isGet = true;
+                        for (var j = 0; j < tLen; j++) {
+                            if (temp[j][key]) {
+                                ele = temp[j];
                                 break;
                             }
                         }
                     }
                     break;
                 default :
-                    for (var j = 0; j < eleLen; j++) {
-                        if (ele[j].tagName === sele[i].toUpperCase()) {    // tagName 属性的返回值始终是大写的
-                            ele = ele[j];
-                            isGet = true;
-                            break;
-                        }
-                    }
+                    ele = ele.getElementsByTagName(sele[i])[0];
                     break;
             }
         }
 
-        if (!isGet) {
+        if (!ele) {
             ele = null;
         }
 

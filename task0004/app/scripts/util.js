@@ -22,8 +22,23 @@ define(function() {
             .replace(/\n/g, "<br>");
     }
 
+    function addClick(elements, listener) {
+        if (elements.length) {
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].addEventListener('click', listener);
+            }
+        }
+        else if (elements) {
+            elements.addEventListener('click', listener);
+        }
+        else {
+            throw 'no element';
+        }
+    }
+
     return {
         uniqArray: uniqArray,
-        htmlEncode: htmlEncode
+        htmlEncode: htmlEncode,
+        addClick: addClick
     }
 });

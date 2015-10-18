@@ -18,11 +18,6 @@ define(['util', 'selector'], function (util, $) {
             +     '"id": 0,'
             +     '"name": "默认分类",'
             +     '"child": [0]'
-            + '},'
-            + '{'
-            +     '"id": 1,'
-            +     '"name": "百度IFE项目",'
-            +     '"child": [1, 3]'
             + '}'
             + ']';
 
@@ -32,64 +27,15 @@ define(['util', 'selector'], function (util, $) {
             +     '"name": "默认子分类",'
             +     '"child": [],'
             +     '"father": 0'
-            + '},'
-            + '{'
-            +     '"id": 1,'
-            +     '"name": "task0001",'
-            +     '"child": [0, 1, 2],'
-            +     '"father": 1'
-            + '},'
-            + '{'
-            +     '"id": 3,'
-            +     '"name": "task0002",'
-            +     '"child": [3],'
-            +     '"father": 1'
             + '}'
             + ']';
 
-        taskText = '['
-            + '{'
-            +     '"id": 0,'
-            +     '"name": "to-do 1",'
-            +     '"father": 1,'
-            +     '"finish": true,'
-            +     '"date": "2015-05-28",'
-            +     '"content": "开始 task0001 的编码任务。"'
-            + '},'
-            + '{'
-            +     '"id": 1,'
-            +     '"name": "to-do 3",'
-            +     '"father": 1,'
-            +     '"finish": true,'
-            +     '"date": "2015-05-30",'
-            +     '"content": "完成 task0001 的编码任务。"'
-            + '},'
-            + '{'
-            +     '"id": 2,'
-            +     '"name": "to-do 2",'
-            +     '"father": 1,'
-            +     '"finish": false,'
-            +     '"date": "2015-05-29",'
-            +     '"content": "重构 task0001 的编码任务。"'
-            + '},'
-            + '{'
-            +     '"id": 3,'
-            +     '"name": "to-do 4",'
-            +     '"father": 3,'
-            +     '"finish": false,'
-            +     '"date": "2015-06-29",'
-            +     '"content": "完成 task0002 的编码任务。"'
-            + '}'
-            + ']';
+        taskText = '[]';
 
-        if (isMobile) {
-            location.href = '#type';
-        }
         if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
             localStorage.cate = cateText;
             localStorage.childCate = childCateText;
             localStorage.task = taskText;
-            $('#type-all').className = 'choose';
         }
 
         cate = JSON.parse(localStorage.cate);
@@ -97,47 +43,51 @@ define(['util', 'selector'], function (util, $) {
         task = JSON.parse(localStorage.task);
         isMobile = navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
 
-        addClick($('#type-all'), typeClick);
-        addClick($('.add'), newType);
-        addClick(document.getElementsByClassName('add')[1], newTask);
-        addClick($('.status').getElementsByTagName('li'), statusClick);
-        addClick($('.icon-check'), finishTask);
-        addClick($('.icon-edit'), editTask);
-        addClick($('.btn3'), cancelAdd);
-        addClick(document.getElementsByClassName('btn3')[1], taskAdd);
-        addClick($('.pop-close'), closePop);
+        util.addClick($('#type-all'), typeClick);
+        util.addClick($('.add'), newType);
+        util.addClick(document.getElementsByClassName('add')[1], newTask);
+        util.addClick($('.status').getElementsByTagName('li'), statusClick);
+        util.addClick($('.icon-check'), finishTask);
+        util.addClick($('.icon-edit'), editTask);
+        util.addClick($('.btn3'), cancelAdd);
+        util.addClick(document.getElementsByClassName('btn3')[1], taskAdd);
+        util.addClick($('.pop-close'), closePop);
 
-        var oldHash = '#type';
-        /* 滑动效果 */
-        window.onhashchange = function () {
-            var newHash = location.hash;
-            var oldEle = $('.' + oldHash.substr(1));
-            var newEle = $('.' + newHash.substr(1));
-            if ((oldHash == '#type' && newHash == '#task') || (oldHash == '#task' && newHash == '#details')) {
-                oldEle.classList.add('slide', 'out');
-                newEle.classList.add('slide', 'in');
-                newEle.style.display = 'block';
-                oldEle.style.display = 'block';
-                setTimeout(function () {
+        if (isMobile) {
+            location.href = '#type';
+
+            var oldHash = '#type';
+            /* 滑动效果 */
+            window.onhashchange = function () {
+                var newHash = location.hash;
+                var oldEle = $('.' + oldHash.substr(1));
+                var newEle = $('.' + newHash.substr(1));
+                if ((oldHash == '#type' && newHash == '#task') || (oldHash == '#task' && newHash == '#details')) {
+                    oldEle.classList.add('slide', 'out');
+                    newEle.classList.add('slide', 'in');
                     newEle.style.display = 'block';
-                    oldEle.style.display = 'none';
-                    oldEle.classList.remove('slide', 'out');
-                    newEle.classList.remove('slide', 'in');;
-                }, 225);
-            }
-            else if ((oldHash == '#task' && newHash == '#type') || (oldHash == '#details' && newHash == '#task')) {
-                newEle.classList.add('slide', 'reverse', 'in');
-                oldEle.classList.add('slide', 'reverse', 'out');
-                oldEle.style.display = 'block';
-                newEle.style.display = 'block';
-                setTimeout(function () {
-                    oldEle.style.display = 'none';
+                    oldEle.style.display = 'block';
+                    setTimeout(function () {
+                        newEle.style.display = 'block';
+                        oldEle.style.display = 'none';
+                        oldEle.classList.remove('slide', 'out');
+                        newEle.classList.remove('slide', 'in');
+                    }, 225);
+                }
+                else if ((oldHash == '#task' && newHash == '#type') || (oldHash == '#details' && newHash == '#task')) {
+                    newEle.classList.add('slide', 'reverse', 'in');
+                    oldEle.classList.add('slide', 'reverse', 'out');
+                    oldEle.style.display = 'block';
                     newEle.style.display = 'block';
-                    newEle.classList.remove('slide', 'reverse', 'in');
-                    oldEle.classList.remove('slide', 'reverse', 'out');
-                }, 225);
+                    setTimeout(function () {
+                        oldEle.style.display = 'none';
+                        newEle.style.display = 'block';
+                        newEle.classList.remove('slide', 'reverse', 'in');
+                        oldEle.classList.remove('slide', 'reverse', 'out');
+                    }, 225);
+                }
+                oldHash = newHash;
             }
-            oldHash = newHash;
         }
     }
 
@@ -145,7 +95,7 @@ define(['util', 'selector'], function (util, $) {
     function makeType() {
         setNum();               // 刷新分类对象的num属性
         var oldChoose = $('.type-wrap .choose');    // 保存正在选中的分类选项
-        $('#type-all').innerHTML = '<i class="icon-menu"></i><span>所有任务</span>(' + task.length + ')'
+        $('.task-sum').innerHTML = task.length;
         var html = '';
         for (var i = 0; i < cate.length; i++) {
             html += ''
@@ -172,9 +122,9 @@ define(['util', 'selector'], function (util, $) {
         html = html.replace(/<i class="delete icon-minus-circled"><\/i>/, '');    // 去掉默认子分类的删除按钮
         $('.item-wrap').innerHTML = html;
 
-        addClick(document.getElementsByTagName('h3'), typeClick);                 // 为新增元素绑定点击事件
-        addClick(document.getElementsByClassName('delete'), del);
-        addClick(document.getElementsByTagName('h4'), typeClick);
+        util.addClick(document.getElementsByTagName('h3'), typeClick);                 // 为新增元素绑定点击事件
+        util.addClick(document.getElementsByClassName('delete'), del);
+        util.addClick(document.getElementsByTagName('h4'), typeClick);
 
         if (!isMobile) {
             if (oldChoose) {                                          // 恢复之前选中的选项
@@ -188,7 +138,7 @@ define(['util', 'selector'], function (util, $) {
                         break;
                     case 'h3':
                         var cateEle = document.getElementsByTagName('h3');
-                        for (var i = 0; i < cateEle.length; i++) {
+                        for (i = 0; i < cateEle.length; i++) {
                             if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name) {
                                 cateEle[i].click();
                                 isClick = true;
@@ -198,7 +148,7 @@ define(['util', 'selector'], function (util, $) {
                         break;
                     case 'h4':
                         var childEle = document.getElementsByTagName('h4');
-                        for (var i = 0; i < childEle.length; i++) {
+                        for (i = 0; i < childEle.length; i++) {
                             if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
                                 childEle[i].click();
                                 isClick = true;
@@ -226,6 +176,7 @@ define(['util', 'selector'], function (util, $) {
         var eleTag = ele.tagName.toLowerCase();
         var name = ele.getElementsByTagName('span')[0].innerHTML;
         var taskIdArr = [];
+        var childObj;
         switch (eleTag) {
             case 'h2':                               // 选中了所有任务
                 for (var i = 0; i < task.length; i++) {
@@ -235,8 +186,8 @@ define(['util', 'selector'], function (util, $) {
                 break;
             case 'h3':                               // 选中了分类
                 var cateObj = getObjByKey(cate, 'name', name);     // 得到任务分类对象
-                for (var i = 0; i < cateObj.child.length; i++) {
-                    var childObj = getObjByKey(childCate, 'id', cateObj.child[i]);  // 得到任务子分类对象
+                for (i = 0; i < cateObj.child.length; i++) {
+                    childObj = getObjByKey(childCate, 'id', cateObj.child[i]);  // 得到任务子分类对象
                     for (var j = 0; j < childObj.child.length; j++) {
                         taskIdArr.push(childObj.child[j]);
                     }
@@ -244,8 +195,8 @@ define(['util', 'selector'], function (util, $) {
                 makeTaskById(taskIdArr);
                 break;
             case 'h4':                               // 选中了子分类
-                var childObj = getObjByKey(childCate, 'name', name);  // 得到任务子分类对象
-                for (var i = 0; i < childObj.child.length; i++) {
+                childObj = getObjByKey(childCate, 'name', name);  // 得到任务子分类对象
+                for (i = 0; i < childObj.child.length; i++) {
                     taskIdArr.push(childObj.child[i]);
                 }
                 makeTaskById(taskIdArr);
@@ -257,7 +208,7 @@ define(['util', 'selector'], function (util, $) {
                 var childEle = document.getElementsByTagName('h6');
                 var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
                 var isClick = false;
-                for (var i = 0; i < childEle.length; i++) {
+                for (i = 0; i < childEle.length; i++) {
                     if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
                         childEle[i].click();
                         isClick = true;
@@ -290,11 +241,11 @@ define(['util', 'selector'], function (util, $) {
         date = sortDate(date);      // 排序
 
         var html = '';
-        for (var i = 0; i < date.length; i++) {
+        for (i = 0; i < date.length; i++) {
             html += ''
                 + '<li>'
                 + '<h5>' + date[i] + '</h5>'
-                + '<ul class="item">'
+                + '<ul class="item">';
             for (var j = 0; j < taskIdArr.length; j++) {
                 taskObj = getObjByKey(task, 'id', taskIdArr[j]);
                 if (taskObj.date === date[i]) {
@@ -318,8 +269,8 @@ define(['util', 'selector'], function (util, $) {
                 + '</li>'
         }
         $('.task-wrap').innerHTML = html;
-        addClick(document.getElementsByTagName('h6'), taskClick);
-        addClick(document.getElementsByClassName('delete'), del);
+        util.addClick(document.getElementsByTagName('h6'), taskClick);
+        util.addClick(document.getElementsByClassName('delete'), del);
     }
 
     // 根据某对象的某属性得到某对象
@@ -379,14 +330,14 @@ define(['util', 'selector'], function (util, $) {
         if (isMobile) {
             location.href = '#task';
         }
-        var otherChoose = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
+        var otherChoose = $('.type').getElementsByTagName('*');
         for (var i = 0; i < otherChoose.length; i++) {
-            if (otherChoose[i].className === 'choose') {
-                otherChoose[i].className = '';
+            if (otherChoose[i].classList.contains('choose')) {
+                otherChoose[i].classList.remove('choose');
                 break;
             }
         }
-        this.className = 'choose';
+        this.classList.add('choose');
         makeTask();
     }
 
@@ -397,39 +348,39 @@ define(['util', 'selector'], function (util, $) {
         }
         var otherChoose = this.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
         for (var i = 0; i < otherChoose.length; i++) {
-            if (otherChoose[i].className === 'choose') {
-                otherChoose[i].className = '';
+            if (otherChoose[i].classList.contains('choose')) {
+                otherChoose[i].classList.remove('choose');
                 break;
             }
         }
-        this.className = 'choose';
+        this.classList.add('choose');
         makeDetails();
     }
 
     // 筛选菜单点击效果
     function statusClick() {
         var otherChoose = this.parentNode.getElementsByTagName('*');
-        for (var i = 0; i < otherChoose.length; i++) {
-            if (otherChoose[i].className === 'choose') {
-                otherChoose[i].className = '';
+        for (i = 0; i < otherChoose.length; i++) {
+            if (otherChoose[i].classList.contains('choose')) {
+                otherChoose[i].classList.remove('choose');
                 break;
             }
         }
-        this.className = 'choose';
+        this.classList.add('choose');
         var myEle;
         if (this.innerHTML.indexOf('所有') !== -1) {
             myEle = $('.task-wrap').getElementsByTagName('li');
-            for (var i = 0; i < myEle.length; i++) {
+            for (i = 0; i < myEle.length; i++) {
                 myEle[i].style.display = 'block';
             }
         }
         else if (this.innerHTML.indexOf('已完成') !== -1) {
             myEle = $('.task-wrap').getElementsByTagName('li');
-            for (var i = 0; i < myEle.length; i++) {
+            for (i = 0; i < myEle.length; i++) {
                 myEle[i].style.display = 'none';
             }
-            for (var i = 0; i < myEle.length; i++) {
-                if (myEle[i].className.indexOf('task-finish') !== -1) {
+            for (i = 0; i < myEle.length; i++) {
+                if (myEle[i].classList.contains('task-finish')) {
                     myEle[i].style.display = 'block';
                     myEle[i].parentNode.parentNode.style.display = 'block';
                 }
@@ -437,11 +388,11 @@ define(['util', 'selector'], function (util, $) {
         }
         else if (this.innerHTML.indexOf('未完成') !== -1) {
             myEle = $('.task-wrap').getElementsByTagName('li');
-            for (var i = 0; i < myEle.length; i++) {
+            for (i = 0; i < myEle.length; i++) {
                 myEle[i].style.display = 'none';
             }
-            for (var i = 0; i < myEle.length; i++) {
-                if (myEle[i].className.indexOf('task-finish') === -1 && myEle[i].parentNode.className === 'item') {
+            for (i = 0; i < myEle.length; i++) {
+                if (myEle[i].classList.contains('task-finish') && myEle[i].parentNode.classList.contains('item')) {
                     myEle[i].style.display = 'block';
                     myEle[i].parentElement.parentElement.style.display = 'block';
                 }
@@ -486,11 +437,11 @@ define(['util', 'selector'], function (util, $) {
             + '</p>'
             + '<p class="error"></p>'
             + '<button class="myButton btn1">取消</button>'
-            + '<button class="myButton btn2">确定</button>'
+            + '<button class="myButton btn2">确定</button>';
 
         $('.pop-content').innerHTML = html;
-        addClick($('.btn1'), closePop);
-        addClick($('.btn2'), typeAdd);
+        util.addClick($('.btn1'), closePop);
+        util.addClick($('.btn2'), typeAdd);
     }
 
     // 弹窗关闭按钮
@@ -536,7 +487,7 @@ define(['util', 'selector'], function (util, $) {
                 "child": [],
                 "father": cate[$('.mySelect').value].id
             };
-            var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
+            var father = getObjByKey(cate, 'id', newChild.father);   // 父节点对象
             father.child.push(newChild.id);                       // 在父节点中登记
             childCate.push(newChild);
             save();
@@ -572,7 +523,7 @@ define(['util', 'selector'], function (util, $) {
         if (isMobile) {
             location.href = '#task';
         }
-        addClick($('.task .add'), newTask);                                 // 重新绑定新建按钮的点击事件
+        util.addClick($('.task .add'), newTask);                                 // 重新绑定新建按钮的点击事件
 
         $('.task-title span').style.display = 'inline';                              // 退出编辑模式
         $('.task-date span').style.display = 'inline';
@@ -637,8 +588,9 @@ define(['util', 'selector'], function (util, $) {
                 father = getObjByKey(childCate, 'name', childName).id;
                 break;
         }
+        var newId = task.length ? task[task.length - 1].id + 1 : 0;
         var newTask = {
-            "id": task[task.length - 1].id + 1,
+            "id": newId,
             "name": name,
             "father": father,
             "finish": false,
@@ -675,6 +627,8 @@ define(['util', 'selector'], function (util, $) {
         var tag = ele.tagName.toLowerCase();
         var index;
         var name = ele.getElementsByTagName('span')[0].innerHTML;
+        var taskIndex;
+        var fatherObj;
         switch (tag) {
             case 'h3':                                                          // 删除一个分类
                 index = getIndexByKey(cate, 'name', name);
@@ -682,7 +636,7 @@ define(['util', 'selector'], function (util, $) {
                 for (var i = 0; i < cate[index].child.length; i++) {            // 删除该分类下的所有子分类及任务
                     var childIndex = getIndexByKey(childCate, 'id', cate[index].child[i]);
                     for (var j = 0; j < childCate[childIndex].child.length; j++) {
-                        var taskIndex = getIndexByKey(task, 'id', childCate[childIndex].child[j])
+                        taskIndex = getIndexByKey(task, 'id', childCate[childIndex].child[j]);
                         task.splice(taskIndex, 1);
                     }
                     childCate.splice(childIndex, 1);
@@ -692,19 +646,19 @@ define(['util', 'selector'], function (util, $) {
             case 'h4':                                                          // 删除一个子分类
                 index = getIndexByKey(childCate, 'name', name);
 
-                for (var i = 0; i < childCate[index].child.length; i++) {       // 删除该子分类下的所有任务
-                    var taskIndex = getIndexByKey(task, 'id', childCate[index].child[i])
+                for (i = 0; i < childCate[index].child.length; i++) {       // 删除该子分类下的所有任务
+                    taskIndex = getIndexByKey(task, 'id', childCate[index].child[i]);
                     task.splice(taskIndex, 1);
                 }
 
-                var fatherObj = getObjByKey(cate, 'id', childCate[index].father);  // 删除父节点中的记录
+                fatherObj = getObjByKey(cate, 'id', childCate[index].father);  // 删除父节点中的记录
                 fatherObj.child.splice(fatherObj.child.indexOf(childCate[index].id), 1);
                 childCate.splice(index, 1);
                 break;
             case 'h6':
                 index = getIndexByKey(task, 'name', name);
 
-                var fatherObj = getObjByKey(childCate, 'id', task[index].father);  // 删除父节点中的记录
+                fatherObj = getObjByKey(childCate, 'id', task[index].father);  // 删除父节点中的记录
                 fatherObj.child.splice(fatherObj.child.indexOf(task[index].id), 1);
                 task.splice(index, 1);
                 break;
@@ -716,10 +670,11 @@ define(['util', 'selector'], function (util, $) {
     // 刷新分类对象的num属性
     function setNum() {
         var sum;
+        var childNum;
         for (var i = 0; i < cate.length; i++) {
             sum = 0;
             for (var j = 0; j < cate[i].child.length; j++) {
-                var childNum = getObjByKey(childCate, 'id', cate[i].child[j]).child.length;
+                childNum = getObjByKey(childCate, 'id', cate[i].child[j]).child.length;
                 sum += childNum;
             }
             cate[i].num = sum;
@@ -745,7 +700,7 @@ define(['util', 'selector'], function (util, $) {
     // 修改已有的任务
     function editTask() {
         $('.task .add').onclick = '';                                               // 暂时取消新建按钮的点击事件，防止重复点击
-        addClick(document.getElementsByClassName('btn3')[1], taskChange);            // 绑定保存按钮的点击事件
+        util.addClick(document.getElementsByClassName('btn3')[1], taskChange);            // 绑定保存按钮的点击事件
 
         document.getElementsByClassName('taskText')[0].value = '';                  // 进入修改模式
         document.getElementsByClassName('taskText')[1].value = '';
@@ -805,18 +760,6 @@ define(['util', 'selector'], function (util, $) {
         localStorage.childCate = JSON.stringify(childCate);
         localStorage.cate = JSON.stringify(cate);
         localStorage.task = JSON.stringify(task);
-    }
-
-    // 对某标签的所有元素绑定点击事件
-    function addClick(elements, listener) {
-        if (elements.length !== undefined) {
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].addEventListener('click', listener);
-            }
-        }
-        else {
-            elements.addEventListener('click', listener);
-        }
     }
 
     return {
