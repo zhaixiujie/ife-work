@@ -11,3 +11,4 @@ https://github.com/baidu-ife/ife
 ## About
 
 这个仓库用来存放我在百度Web前端技术学院学习期间做的所有任务。
+[demo]https://zhaixiujie.github.io/ife-work/about.html
